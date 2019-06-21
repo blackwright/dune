@@ -1,7 +1,7 @@
 import { Coords } from './types';
 import { randomNumberBetween } from '../../utils';
 
-const MAX_DELAY = 1500;
+const MAX_DELAY = 5000;
 const TIME_TO_CROSS = 1500;
 
 export class Sand {
@@ -13,6 +13,7 @@ export class Sand {
   constructor(private canvasWidth: number, public destination: Coords) {
     this.originY = destination.y;
     this.position = { x: 0, y: destination.y };
+
     this.delay = randomNumberBetween(0, MAX_DELAY);
   }
 

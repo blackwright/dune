@@ -1,7 +1,9 @@
 import React, { useRef, useEffect } from 'react';
-import { useDebouncedResize } from '../../utils/hooks';
 import { Wind } from './wind';
 import { Sand } from './sand';
+import { randomNumberBetween } from '../../utils';
+import { useDebouncedResize } from '../../utils/hooks';
+import './Dune.css';
 
 type Props = {
   text?: string;
@@ -35,10 +37,18 @@ export function Dune({ text = '' }: Props) {
 
     for (let x = 0; x < canvas.width; x++) {
       for (let y = 0; y < canvas.height; y++) {
-        if (data[(x + y * canvas.width) * 4 + 3] > 0) {
+        if (data[(x + y * canvas.width) * 4 + 3] > 0 && Math.random() > 0.5) {
           sand.push(new Sand(canvas.width, { x, y }));
         }
       }
+    }
+
+    for (let i = 0; i < 10000; i++) {
+      const randomDestination = {
+        x: canvas.width,
+        y: randomNumberBetween(1, canvas.height - 1)
+      };
+      sand.push(new Sand(canvas.width, randomDestination));
     }
 
     const wind = new Wind(canvas.width, sand);
@@ -51,7 +61,7 @@ export function Dune({ text = '' }: Props) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       wind.tick(now);
       sand.forEach(grain =>
-        ctx.fillRect(grain.position.x, grain.position.y, 1, 1)
+        ctx.fillRect(grain.position.x, grain.position.y, 2, 1)
       );
 
       rafIdRef.current = window.requestAnimationFrame(blow);
@@ -66,5 +76,5 @@ export function Dune({ text = '' }: Props) {
     };
   }, [text]);
 
-  return <canvas ref={canvasRef} />;
+  return <canvas className="dune" ref={canvasRef} />;
 }
