@@ -2,7 +2,7 @@ import { Coords } from './types';
 import { randomNumberBetween } from '../../utils';
 
 const MAX_DELAY = 5000;
-const TIME_TO_CROSS = 1500;
+const TIME_TO_CROSS = 1000;
 
 export class Sand {
   public position: Coords;

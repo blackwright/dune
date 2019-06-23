@@ -3,7 +3,7 @@ import { debounced } from '../utils';
 
 export function useDebouncedResize(
   fn: React.EffectCallback,
-  deps?: React.DependencyList
+  deps: React.DependencyList
 ) {
   useEffect(() => {
     fn();
@@ -12,5 +12,5 @@ export function useDebouncedResize(
 
     window.addEventListener('resize', debouncedFn);
     return () => window.removeEventListener('resize', debouncedFn);
-  }, deps);
+  }, [fn, ...deps]);
 }

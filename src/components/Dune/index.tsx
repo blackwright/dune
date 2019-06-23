@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { CanvasWriter } from './canvasWriter';
 import { Wind } from './wind';
 import { Sand } from './sand';
 import { randomNumberBetween } from '../../utils';
@@ -11,13 +12,19 @@ type Props = {
 
 export function Dune({ text = '' }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasWriterRef = useRef<CanvasWriter>();
 
   useDebouncedResize(() => {
     const canvas = canvasRef.current!;
-
     const { innerWidth, innerHeight, devicePixelRatio } = window;
     canvas.width = innerWidth * devicePixelRatio;
     canvas.height = innerHeight * devicePixelRatio;
+
+    const ctx = canvas.getContext('2d')!;
+    ctx.fillStyle = 'black';
+    ctx.font = 'normal normal 100 3rem "Times New Roman"';
+
+    canvasWriterRef.current = new CanvasWriter(ctx);
   }, []);
 
   const rafIdRef = useRef<number>();
@@ -25,13 +32,11 @@ export function Dune({ text = '' }: Props) {
   useEffect(() => {
     const canvas = canvasRef.current!;
     const ctx = canvas.getContext('2d')!;
+    const canvasWriter = canvasWriterRef.current!;
 
-    ctx.fillStyle = 'black';
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    ctx.font = 'normal normal 100 3rem "Roboto Mono"';
-    ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-    const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    canvasWriter.clear();
+    canvasWriter.write(text);
+    const { data } = canvasWriter.getImageData();
 
     const sand: Sand[] = [];
 
