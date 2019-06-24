@@ -1,21 +1,24 @@
 import React, { useRef, useEffect } from 'react';
 import { CanvasWriter, SIDE_PADDING_RATIO } from './canvasWriter';
 import { Wind } from './wind';
-import { Sand, MAX_DELAY } from './sand';
+import { Sand, MAX_DELAY, TIME_TO_CROSS } from './sand';
 import { randomNumberBetween } from '../../utils';
 import { useDebouncedResize } from '../../utils/hooks';
 import './Dune.css';
+
+const TEXT_SAND_DENSITY = 0.5;
 
 type Props = {
   text?: string;
 };
 
-const FONT = 'normal normal 100 3rem "Times New Roman"';
+const FONT = 'normal normal 100 3rem "Roboto Mono"';
 
 export function Dune({ text = '' }: Props) {
   const gustCanvasRef = useRef<HTMLCanvasElement>(null);
   const obliterateCanvasRef = useRef<HTMLCanvasElement>(null);
   const canvasWriterRef = useRef<CanvasWriter>();
+  const gustRafId = useRef<number>();
 
   useDebouncedResize(() => {
     const { innerWidth, innerHeight, devicePixelRatio } = window;
@@ -37,8 +40,6 @@ export function Dune({ text = '' }: Props) {
     canvasWriterRef.current = new CanvasWriter(gustCtx);
   }, []);
 
-  const gustRafId = useRef<number>();
-
   useEffect(() => {
     const gustCanvas = gustCanvasRef.current!;
     const gustCtx = gustCanvas.getContext('2d')!;
@@ -48,76 +49,61 @@ export function Dune({ text = '' }: Props) {
     const obliterateCanvas = obliterateCanvasRef.current!;
     const obliterateCtx = obliterateCanvas.getContext('2d')!;
 
-    canvasWriter.clear();
-    canvasWriter.write(text);
-    const { data } = canvasWriter.getImageData();
+    const sand: Sand[] = [];
+    const wind = new Wind(gustCanvas.width, sand);
 
-    const textSand: Sand[] = [];
+    window.setTimeout(
+      () => {
+        canvasWriter.clear();
+        canvasWriter.write(text);
+        const { data } = canvasWriter.getImageData();
 
-    for (let x = 0; x < gustCanvas.width; x++) {
-      for (let y = 0; y < gustCanvas.height; y++) {
-        if (
-          data[(x + y * gustCanvas.width) * 4 + 3] > 0 &&
-          Math.random() > 0.55
-        ) {
-          const randomDelay = randomNumberBetween(
-            -MAX_DELAY / 5,
-            MAX_DELAY / 5
-          );
-          const sandDelay =
-            ((x - SIDE_PADDING_RATIO * gustCanvas.width) /
-              canvasWriter.maxLineWidth!) *
-              MAX_DELAY +
-            randomDelay;
-          textSand.push(new Sand(gustCanvas.width, { x, y }, sandDelay));
+        for (let x = 0; x < gustCanvas.width; x++) {
+          for (let y = 0; y < gustCanvas.height; y++) {
+            if (
+              data[(x + y * gustCanvas.width) * 4 + 3] > 0 &&
+              Math.random() > 1 - TEXT_SAND_DENSITY
+            ) {
+              const sandDelay =
+                ((x - SIDE_PADDING_RATIO * gustCanvas.width) /
+                  canvasWriter.maxLineWidth!) *
+                  MAX_DELAY +
+                randomNumberBetween(-MAX_DELAY / 5, MAX_DELAY / 5);
+              sand.push(new Sand(gustCanvas.width, { x, y }, sandDelay));
+            }
+          }
         }
-      }
-    }
 
-    const backgroundSand: Sand[] = [];
+        const sandCount = sand.length;
 
-    for (let i = 0; i < 4000; i++) {
-      const randomDestination = {
-        x: gustCanvas.width,
-        y: randomNumberBetween(1, gustCanvas.height - 1)
-      };
+        const gust = (now: number) => {
+          if (wind.numTextGrainsInPlace === sandCount) {
+            return;
+          }
 
-      backgroundSand.push(new Sand(gustCanvas.width, randomDestination));
-    }
+          gustCtx.clearRect(0, 0, gustCanvas.width, gustCanvas.height);
+          wind.tick(now);
+          wind.render(gustCtx);
 
-    const wind = new Wind(gustCanvas.width, textSand, backgroundSand);
+          gustRafId.current = window.requestAnimationFrame(gust);
+        };
 
-    const gust = (now: number) => {
-      if (
-        wind.numTextGrainsInPlace === textSand.length &&
-        !backgroundSand.length
-      ) {
-        return;
-      }
-
-      gustCtx.clearRect(0, 0, gustCanvas.width, gustCanvas.height);
-      wind.tick(now);
-      wind.render(gustCtx);
-
-      gustRafId.current = window.requestAnimationFrame(gust);
-    };
-
-    gustRafId.current = window.requestAnimationFrame(gust);
+        gustRafId.current = window.requestAnimationFrame(gust);
+      },
+      gustRafId.current ? TIME_TO_CROSS * 2 : 0
+    );
 
     return () => {
       if (gustRafId.current) {
         window.cancelAnimationFrame(gustRafId.current);
       }
 
-      // move all text sand to background sand for cleanup
-      wind.textSand.forEach(grain => (grain.destination.x = gustCanvas.width));
-      wind.backgroundSand = [...wind.textSand, ...wind.backgroundSand];
-      wind.textSand = [];
+      wind.sand.forEach(grain => (grain.destination.x = gustCanvas.width));
 
       const obliterate = (now: number) => {
         // keep running in animation loop until all
         // sand is blown to the edge of the canvas
-        if (!wind.backgroundSand.length) {
+        if (!wind.sand.length) {
           return;
         }
 

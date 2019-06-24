@@ -2,7 +2,7 @@ import { Coords } from './types';
 import { randomNumberBetween } from '../../utils';
 
 export const MAX_DELAY = 1000;
-const TIME_TO_CROSS = 1000;
+export const TIME_TO_CROSS = 1000;
 
 export class Sand {
   public position: Coords;
@@ -42,6 +42,6 @@ export class Sand {
   }
 
   render(ctx: CanvasRenderingContext2D) {
-    ctx.fillRect(this.position.x, this.position.y, 2, 1);
+    ctx.fillRect(this.position.x, this.position.y, 2, 2);
   }
 }
