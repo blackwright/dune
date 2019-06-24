@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
-import { CanvasWriter } from './canvasWriter';
+import { CanvasWriter, SIDE_PADDING_RATIO } from './canvasWriter';
 import { Wind } from './wind';
-import { Sand } from './sand';
+import { Sand, MAX_DELAY } from './sand';
 import { randomNumberBetween } from '../../utils';
 import { useDebouncedResize } from '../../utils/hooks';
 import './Dune.css';
@@ -10,76 +10,132 @@ type Props = {
   text?: string;
 };
 
+const FONT = 'normal normal 100 3rem "Times New Roman"';
+
 export function Dune({ text = '' }: Props) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const gustCanvasRef = useRef<HTMLCanvasElement>(null);
+  const obliterateCanvasRef = useRef<HTMLCanvasElement>(null);
   const canvasWriterRef = useRef<CanvasWriter>();
 
   useDebouncedResize(() => {
-    const canvas = canvasRef.current!;
     const { innerWidth, innerHeight, devicePixelRatio } = window;
-    canvas.width = innerWidth * devicePixelRatio;
-    canvas.height = innerHeight * devicePixelRatio;
 
-    const ctx = canvas.getContext('2d')!;
-    ctx.fillStyle = 'black';
-    ctx.font = 'normal normal 100 3rem "Times New Roman"';
+    const gustCanvas = gustCanvasRef.current!;
+    gustCanvas.width = innerWidth * devicePixelRatio;
+    gustCanvas.height = innerHeight * devicePixelRatio;
 
-    canvasWriterRef.current = new CanvasWriter(ctx);
+    const obliterateCanvas = obliterateCanvasRef.current!;
+    obliterateCanvas.width = innerWidth * devicePixelRatio;
+    obliterateCanvas.height = innerHeight * devicePixelRatio;
+
+    const gustCtx = gustCanvas.getContext('2d')!;
+    gustCtx.font = FONT;
+
+    const obliterateCtx = obliterateCanvas.getContext('2d')!;
+    obliterateCtx.font = FONT;
+
+    canvasWriterRef.current = new CanvasWriter(gustCtx);
   }, []);
 
-  const rafIdRef = useRef<number>();
+  const gustRafId = useRef<number>();
 
   useEffect(() => {
-    const canvas = canvasRef.current!;
-    const ctx = canvas.getContext('2d')!;
+    const gustCanvas = gustCanvasRef.current!;
+    const gustCtx = gustCanvas.getContext('2d')!;
+
     const canvasWriter = canvasWriterRef.current!;
+
+    const obliterateCanvas = obliterateCanvasRef.current!;
+    const obliterateCtx = obliterateCanvas.getContext('2d')!;
 
     canvasWriter.clear();
     canvasWriter.write(text);
     const { data } = canvasWriter.getImageData();
 
-    const sand: Sand[] = [];
+    const textSand: Sand[] = [];
 
-    for (let x = 0; x < canvas.width; x++) {
-      for (let y = 0; y < canvas.height; y++) {
-        if (data[(x + y * canvas.width) * 4 + 3] > 0 && Math.random() > 0.5) {
-          sand.push(new Sand(canvas.width, { x, y }));
+    for (let x = 0; x < gustCanvas.width; x++) {
+      for (let y = 0; y < gustCanvas.height; y++) {
+        if (
+          data[(x + y * gustCanvas.width) * 4 + 3] > 0 &&
+          Math.random() > 0.55
+        ) {
+          const randomDelay = randomNumberBetween(
+            -MAX_DELAY / 5,
+            MAX_DELAY / 5
+          );
+          const sandDelay =
+            ((x - SIDE_PADDING_RATIO * gustCanvas.width) /
+              canvasWriter.maxLineWidth!) *
+              MAX_DELAY +
+            randomDelay;
+          textSand.push(new Sand(gustCanvas.width, { x, y }, sandDelay));
         }
       }
     }
 
-    for (let i = 0; i < 10000; i++) {
+    const backgroundSand: Sand[] = [];
+
+    for (let i = 0; i < 4000; i++) {
       const randomDestination = {
-        x: canvas.width,
-        y: randomNumberBetween(1, canvas.height - 1)
+        x: gustCanvas.width,
+        y: randomNumberBetween(1, gustCanvas.height - 1)
       };
-      sand.push(new Sand(canvas.width, randomDestination));
+
+      backgroundSand.push(new Sand(gustCanvas.width, randomDestination));
     }
 
-    const wind = new Wind(canvas.width, sand);
+    const wind = new Wind(gustCanvas.width, textSand, backgroundSand);
 
-    const blow = (now: number) => {
-      if (!wind.isBlowing) {
+    const gust = (now: number) => {
+      if (
+        wind.numTextGrainsInPlace === textSand.length &&
+        !backgroundSand.length
+      ) {
         return;
       }
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      gustCtx.clearRect(0, 0, gustCanvas.width, gustCanvas.height);
       wind.tick(now);
-      sand.forEach(grain =>
-        ctx.fillRect(grain.position.x, grain.position.y, 2, 1)
-      );
+      wind.render(gustCtx);
 
-      rafIdRef.current = window.requestAnimationFrame(blow);
+      gustRafId.current = window.requestAnimationFrame(gust);
     };
 
-    rafIdRef.current = window.requestAnimationFrame(blow);
+    gustRafId.current = window.requestAnimationFrame(gust);
 
     return () => {
-      if (rafIdRef.current) {
-        window.cancelAnimationFrame(rafIdRef.current);
+      if (gustRafId.current) {
+        window.cancelAnimationFrame(gustRafId.current);
       }
+
+      // move all text sand to background sand for cleanup
+      wind.textSand.forEach(grain => (grain.destination.x = gustCanvas.width));
+      wind.backgroundSand = [...wind.textSand, ...wind.backgroundSand];
+      wind.textSand = [];
+
+      const obliterate = (now: number) => {
+        // keep running in animation loop until all
+        // sand is blown to the edge of the canvas
+        if (!wind.backgroundSand.length) {
+          return;
+        }
+
+        obliterateCtx.clearRect(0, 0, gustCanvas.width, gustCanvas.height);
+        wind.tick(now);
+        wind.render(obliterateCtx);
+
+        window.requestAnimationFrame(obliterate);
+      };
+
+      window.requestAnimationFrame(obliterate);
     };
   }, [text]);
 
-  return <canvas className="dune" ref={canvasRef} />;
+  return (
+    <>
+      <canvas className="dune" ref={gustCanvasRef} />
+      <canvas className="dune" ref={obliterateCanvasRef} />
+    </>
+  );
 }

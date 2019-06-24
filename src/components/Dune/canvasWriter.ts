@@ -1,4 +1,4 @@
-const SIDE_PADDING_RATIO = 0.05;
+export const SIDE_PADDING_RATIO = 0.05;
 
 type LineOfText = {
   text: string;
@@ -12,6 +12,7 @@ export class CanvasWriter {
   private canvasHeight: number;
   private lineHeight: number;
   private lines: LineOfText[] = [];
+  public maxLineWidth = 0;
 
   constructor(private ctx: CanvasRenderingContext2D) {
     this.canvasWidth = ctx.canvas.width;
@@ -39,6 +40,7 @@ export class CanvasWriter {
       const nextWord = words[0];
 
       if (nextWord == null) {
+        this.maxLineWidth = Math.max(this.maxLineWidth, line.width);
         this.lines.push(line);
       }
 
@@ -47,6 +49,7 @@ export class CanvasWriter {
         line.width + spaceWidth + this.ctx.measureText(nextWord).width >
           this.canvasWidth - this.canvasWidth * SIDE_PADDING_RATIO * 2
       ) {
+        this.maxLineWidth = Math.max(this.maxLineWidth, line.width);
         this.lines.push(line);
         line = { ...newLine };
       } else {

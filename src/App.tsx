@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dune } from './components/Dune';
 
 const App: React.FC = () => {
-  const text =
-    'Deep in the human unconscious is a pervasive need for a logical universe that makes sense. But the real universe is always one step beyond logic.';
+  const [text, setText] = useState('Harkonnen');
+
+  useEffect(() => {
+    window.setTimeout(() => setText('Atreides'), 2000);
+  }, []);
+
   return <Dune text={text} />;
 };
 

@@ -1,34 +1,45 @@
 import { Sand } from './sand';
 
 export class Wind {
-  public isBlowing = true;
-  private numDone = 0;
+  public numTextGrainsInPlace = 0;
 
-  constructor(public canvasWidth: number, public sand: Sand[]) {}
+  constructor(
+    public canvasWidth: number,
+    public textSand: Sand[],
+    public backgroundSand: Sand[]
+  ) {}
 
   tick(now: number) {
-    for (const grain of this.sand) {
+    for (let i = 0; i < this.textSand.length; i++) {
+      const grain = this.textSand[i];
+
       if (grain.position.x !== grain.destination.x) {
         grain.tick(now);
+
+        // track how many grains have moved to their
+        // destination in the rendered text so we can
+        // know when to end the animation loop
         if (grain.position.x === grain.destination.x) {
-          this.numDone += 1;
+          this.numTextGrainsInPlace += 1;
+
+          grain.lastTickDelta = now - grain.firstTickTimestamp!;
+          grain.firstTickTimestamp = null;
         }
       }
     }
 
-    if (this.numDone === this.sand.length) {
-      this.isBlowing = false;
+    for (let i = this.backgroundSand.length - 1; i >= 0; i--) {
+      const grain = this.backgroundSand[i];
+      grain.tick(now);
+
+      if (grain.position.x === this.canvasWidth) {
+        this.backgroundSand.splice(i, 1);
+      }
     }
   }
 
-  clear() {
-    this.sand = this.sand.filter(
-      grain => grain.position.x !== this.canvasWidth
-    );
-  }
-
-  reset() {
-    this.isBlowing = true;
-    this.numDone = 0;
+  render(ctx: CanvasRenderingContext2D) {
+    this.textSand.forEach(grain => grain.render(ctx));
+    this.backgroundSand.forEach(grain => grain.render(ctx));
   }
 }
