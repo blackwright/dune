@@ -77,8 +77,11 @@ export class CanvasWriter {
   }
 
   write(text: string) {
+    this.ctx.save();
+    this.ctx.fillStyle = '#fff';
     this.layout(text);
     this.render();
+    this.ctx.restore();
   }
 
   getImageData() {

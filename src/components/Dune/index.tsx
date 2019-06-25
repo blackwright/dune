@@ -52,28 +52,28 @@ export function Dune({ text = '' }: Props) {
     const sand: Sand[] = [];
     const wind = new Wind(gustCanvas.width, sand);
 
+    canvasWriter.clear();
+    canvasWriter.write(text);
+    const { data } = canvasWriter.getImageData();
+
+    for (let x = 0; x < gustCanvas.width; x++) {
+      for (let y = 0; y < gustCanvas.height; y++) {
+        if (
+          data[(x + y * gustCanvas.width) * 4 + 3] > 0 &&
+          Math.random() > 1 - TEXT_SAND_DENSITY
+        ) {
+          const sandDelay =
+            ((x - SIDE_PADDING_RATIO * gustCanvas.width) /
+              canvasWriter.maxLineWidth!) *
+              MAX_DELAY +
+            randomNumberBetween(-MAX_DELAY / 5, MAX_DELAY / 5);
+          sand.push(new Sand(gustCanvas.width, { x, y }, sandDelay));
+        }
+      }
+    }
+
     window.setTimeout(
       () => {
-        canvasWriter.clear();
-        canvasWriter.write(text);
-        const { data } = canvasWriter.getImageData();
-
-        for (let x = 0; x < gustCanvas.width; x++) {
-          for (let y = 0; y < gustCanvas.height; y++) {
-            if (
-              data[(x + y * gustCanvas.width) * 4 + 3] > 0 &&
-              Math.random() > 1 - TEXT_SAND_DENSITY
-            ) {
-              const sandDelay =
-                ((x - SIDE_PADDING_RATIO * gustCanvas.width) /
-                  canvasWriter.maxLineWidth!) *
-                  MAX_DELAY +
-                randomNumberBetween(-MAX_DELAY / 5, MAX_DELAY / 5);
-              sand.push(new Sand(gustCanvas.width, { x, y }, sandDelay));
-            }
-          }
-        }
-
         const sandCount = sand.length;
 
         const gust = (now: number) => {
