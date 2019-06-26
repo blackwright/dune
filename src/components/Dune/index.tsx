@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from 'react';
+import styled from 'styled-components';
 import { CanvasWriter, SIDE_PADDING_RATIO } from './canvasWriter';
 import { Wind } from './wind';
 import { Sand, MAX_DELAY, TIME_TO_CROSS } from './sand';
 import { randomNumberBetween } from '../../utils';
 import { useDebouncedResize } from '../../utils/hooks';
-import './Dune.css';
 
 const TEXT_SAND_DENSITY = 0.5;
 
@@ -14,30 +14,50 @@ type Props = {
 
 const FONT = 'normal normal 100 3rem "Roboto Mono"';
 
+const StyledCanvas = styled.canvas`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+`;
+
+const StyledHiddenCanvas = styled(StyledCanvas)`
+  display: none;
+`;
+
 export function Dune({ text = '' }: Props) {
+  const textCanvasRef = useRef<HTMLCanvasElement>(null);
   const gustCanvasRef = useRef<HTMLCanvasElement>(null);
   const obliterateCanvasRef = useRef<HTMLCanvasElement>(null);
+
   const canvasWriterRef = useRef<CanvasWriter>();
   const gustRafId = useRef<number>();
 
   useDebouncedResize(() => {
     const { innerWidth, innerHeight, devicePixelRatio } = window;
+    const canvasWidth = innerWidth * devicePixelRatio;
+    const canvasHeight = innerHeight * devicePixelRatio;
+
+    const textCanvas = textCanvasRef.current!;
+    textCanvas.width = canvasWidth;
+    textCanvas.height = canvasHeight;
 
     const gustCanvas = gustCanvasRef.current!;
-    gustCanvas.width = innerWidth * devicePixelRatio;
-    gustCanvas.height = innerHeight * devicePixelRatio;
+    gustCanvas.width = canvasWidth;
+    gustCanvas.height = canvasHeight;
 
     const obliterateCanvas = obliterateCanvasRef.current!;
-    obliterateCanvas.width = innerWidth * devicePixelRatio;
-    obliterateCanvas.height = innerHeight * devicePixelRatio;
+    obliterateCanvas.width = canvasWidth;
+    obliterateCanvas.height = canvasHeight;
 
-    const gustCtx = gustCanvas.getContext('2d')!;
-    gustCtx.font = FONT;
+    const textCtx = textCanvas.getContext('2d')!;
+    textCtx.font = FONT;
 
     const obliterateCtx = obliterateCanvas.getContext('2d')!;
     obliterateCtx.font = FONT;
 
-    canvasWriterRef.current = new CanvasWriter(gustCtx);
+    canvasWriterRef.current = new CanvasWriter(textCtx);
   }, []);
 
   useEffect(() => {
@@ -120,8 +140,9 @@ export function Dune({ text = '' }: Props) {
 
   return (
     <>
-      <canvas className="dune" ref={gustCanvasRef} />
-      <canvas className="dune" ref={obliterateCanvasRef} />
+      <StyledHiddenCanvas ref={textCanvasRef} />
+      <StyledCanvas ref={gustCanvasRef} />
+      <StyledCanvas ref={obliterateCanvasRef} />
     </>
   );
 }
