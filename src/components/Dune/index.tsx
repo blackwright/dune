@@ -7,12 +7,11 @@ import { randomNumberBetween } from '../../utils';
 import { useDebouncedResize } from '../../utils/hooks';
 
 const TEXT_SAND_DENSITY = 0.5;
+const FONT = 'normal normal 100 3rem "Roboto Mono"';
 
 type Props = {
   text?: string;
 };
-
-const FONT = 'normal normal 100 3rem "Roboto Mono"';
 
 const StyledCanvas = styled.canvas`
   position: absolute;
@@ -64,17 +63,15 @@ export function Dune({ text = '' }: Props) {
     const gustCanvas = gustCanvasRef.current!;
     const gustCtx = gustCanvas.getContext('2d')!;
 
-    const canvasWriter = canvasWriterRef.current!;
-
     const obliterateCanvas = obliterateCanvasRef.current!;
     const obliterateCtx = obliterateCanvas.getContext('2d')!;
 
-    const sand: Sand[] = [];
-    const wind = new Wind(gustCanvas.width, sand);
-
-    canvasWriter.clear();
+    const canvasWriter = canvasWriterRef.current!;
     canvasWriter.write(text);
     const { data } = canvasWriter.getImageData();
+
+    const sand: Sand[] = [];
+    const wind = new Wind(gustCanvas.width, sand);
 
     for (let x = 0; x < gustCanvas.width; x++) {
       for (let y = 0; y < gustCanvas.height; y++) {
@@ -118,7 +115,9 @@ export function Dune({ text = '' }: Props) {
         window.cancelAnimationFrame(gustRafId.current);
       }
 
-      wind.sand.forEach(grain => (grain.destination.x = gustCanvas.width));
+      wind.sand.forEach(
+        grain => (grain.destination.x = obliterateCanvas.width)
+      );
 
       const obliterate = (now: number) => {
         // keep running in animation loop until all
@@ -127,7 +126,13 @@ export function Dune({ text = '' }: Props) {
           return;
         }
 
-        obliterateCtx.clearRect(0, 0, gustCanvas.width, gustCanvas.height);
+        obliterateCtx.clearRect(
+          0,
+          0,
+          obliterateCanvas.width,
+          obliterateCanvas.height
+        );
+
         wind.tick(now);
         wind.render(obliterateCtx);
 

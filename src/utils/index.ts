@@ -50,3 +50,11 @@ export function randomNumberBetween(
   const randomFloat = min + Math.random() * (max - min);
   return Number(randomFloat.toPrecision(decimalPrecision));
 }
+
+export function randomElement(array: any[]) {
+  return array[randomNumberBetween(0, array.length - 1)];
+}
+
+export function capitalize(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

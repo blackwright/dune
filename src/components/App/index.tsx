@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Dune } from '../Dune';
 import dune from './dune.png';
+import Generator from '../Generator';
 
 const StyledBackground = styled.main`
   background: url(${dune}) no-repeat center center fixed;
@@ -30,6 +31,7 @@ const App: React.FC = () => {
   return (
     <StyledBackground>
       <Dune text={text} />
+      <Generator />
     </StyledBackground>
   );
 };

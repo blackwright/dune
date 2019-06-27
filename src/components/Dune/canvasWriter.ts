@@ -20,7 +20,7 @@ export class CanvasWriter {
     this.lineHeight = ctx.measureText('M').width;
   }
 
-  clear() {
+  private clear() {
     this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
   }
 
@@ -79,6 +79,7 @@ export class CanvasWriter {
   write(text: string) {
     this.ctx.save();
     this.ctx.fillStyle = '#fff';
+    this.clear();
     this.layout(text);
     this.render();
     this.ctx.restore();
