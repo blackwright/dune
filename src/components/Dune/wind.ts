@@ -1,7 +1,7 @@
 import { Sand } from './sand';
 
 export class Wind {
-  public numTextGrainsInPlace = 0;
+  public numSandInPlace = 0;
 
   constructor(public canvasWidth: number, public sand: Sand[]) {}
 
@@ -21,7 +21,7 @@ export class Wind {
             continue;
           }
 
-          this.numTextGrainsInPlace += 1;
+          this.numSandInPlace += 1;
 
           grain.lastTickDelta = now - grain.firstTickTimestamp!;
           grain.firstTickTimestamp = null;

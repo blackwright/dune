@@ -1,7 +1,7 @@
 import { Coords } from './types';
 import { randomNumberBetween } from '../../utils';
 
-export const MAX_DELAY = 1000;
+export const MAX_DELAY = 500;
 export const TIME_TO_CROSS = 1000;
 
 export class Sand {
@@ -10,6 +10,8 @@ export class Sand {
   public firstTickTimestamp: number | null = null;
   public lastTickDelta = 0;
 
+  private size: number;
+
   constructor(
     private canvasWidth: number,
     public destination: Coords,
@@ -17,6 +19,7 @@ export class Sand {
   ) {
     this.originY = destination.y;
     this.position = { x: -10, y: destination.y };
+    this.size = randomNumberBetween(1, 2);
   }
 
   tick(now: number) {
@@ -42,6 +45,8 @@ export class Sand {
   }
 
   render(ctx: CanvasRenderingContext2D) {
-    ctx.fillRect(this.position.x, this.position.y, 2, 2);
+    ctx.beginPath();
+    ctx.arc(this.position.x, this.position.y, this.size, 0, 2 * Math.PI);
+    ctx.fill();
   }
 }

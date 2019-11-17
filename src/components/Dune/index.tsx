@@ -60,18 +60,18 @@ export function Dune({ text = '' }: Props) {
     const sand: Sand[] = [];
     const wind = new Wind(gustCanvas.width, sand);
 
-    for (let x = 0; x < gustCanvas.width; x++) {
-      for (let y = 0; y < gustCanvas.height; y++) {
+    for (let x = 0; x < gustCanvas.width; x += 2) {
+      for (let y = 0; y < gustCanvas.height; y += 2) {
         if (
           data[(x + y * gustCanvas.width) * 4 + 3] > 0 &&
           Math.random() > 1 - TEXT_SAND_DENSITY
         ) {
-          const sandDelay =
+          const delay =
             ((x - SIDE_PADDING_RATIO * gustCanvas.width) /
               canvasWriter.maxLineWidth!) *
               MAX_DELAY +
-            randomNumberBetween(-MAX_DELAY / 5, MAX_DELAY / 5);
-          sand.push(new Sand(gustCanvas.width, { x, y }, sandDelay));
+            randomNumberBetween(-MAX_DELAY, MAX_DELAY);
+          sand.push(new Sand(gustCanvas.width, { x, y }, delay));
         }
       }
     }
@@ -81,7 +81,7 @@ export function Dune({ text = '' }: Props) {
         const sandCount = sand.length;
 
         const gust = (now: number) => {
-          if (wind.numTextGrainsInPlace === sandCount) {
+          if (wind.numSandInPlace === sandCount) {
             return;
           }
 
