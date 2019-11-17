@@ -44,10 +44,10 @@ export function randomNumberBetween(
   decimalPrecision = 1
 ) {
   if (isInteger(min) && isInteger(max)) {
-    return min + Math.floor(Math.random() * (max - min));
+    return min + Math.floor(Math.random() * (max - min + 1));
   }
 
-  const randomFloat = min + Math.random() * (max - min);
+  const randomFloat = min + Math.random() * (max - min + 1);
   return Number(randomFloat.toPrecision(decimalPrecision));
 }
 
