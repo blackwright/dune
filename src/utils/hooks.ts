@@ -2,13 +2,17 @@ import { useEffect } from 'react';
 import { debounced } from '../utils';
 
 export function useDebouncedResize(
-  fn: React.EffectCallback,
+  fn: ({ width, height }: { width: number; height: number }) => void,
   deps: React.DependencyList
 ) {
   useEffect(() => {
-    fn();
+    const { innerWidth, innerHeight, devicePixelRatio } = window;
+    const width = innerWidth * devicePixelRatio;
+    const height = innerHeight * devicePixelRatio;
 
-    const debouncedFn = debounced(fn);
+    fn({ width, height });
+
+    const debouncedFn = debounced(() => fn({ width, height }));
 
     window.addEventListener('resize', debouncedFn);
     return () => window.removeEventListener('resize', debouncedFn);

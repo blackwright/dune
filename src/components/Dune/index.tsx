@@ -13,47 +13,34 @@ type Props = {
   text?: string;
 };
 
-const StyledCanvas = styled.canvas`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-`;
-
-const StyledHiddenCanvas = styled(StyledCanvas)`
-  display: none;
-`;
-
 export function Dune({ text = '' }: Props) {
-  const textCanvasRef = useRef<HTMLCanvasElement>(null);
-  const gustCanvasRef = useRef<HTMLCanvasElement>(null);
-  const obliterateCanvasRef = useRef<HTMLCanvasElement>(null);
+  const textCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const gustCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const obliterateCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const canvasWriterRef = useRef<CanvasWriter>();
   const gustRafId = useRef<number>();
 
-  useDebouncedResize(() => {
-    const { innerWidth, innerHeight, devicePixelRatio } = window;
-    const canvasWidth = innerWidth * devicePixelRatio;
-    const canvasHeight = innerHeight * devicePixelRatio;
+  useDebouncedResize(({ width, height }) => {
+    if (
+      !textCanvasRef.current ||
+      !gustCanvasRef.current ||
+      !obliterateCanvasRef.current
+    ) {
+      return;
+    }
 
-    const textCanvas = textCanvasRef.current!;
-    textCanvas.width = canvasWidth;
-    textCanvas.height = canvasHeight;
+    textCanvasRef.current.width = width;
+    textCanvasRef.current.height = height;
+    gustCanvasRef.current.width = width;
+    gustCanvasRef.current.height = height;
+    obliterateCanvasRef.current.width = width;
+    obliterateCanvasRef.current.height = height;
 
-    const gustCanvas = gustCanvasRef.current!;
-    gustCanvas.width = canvasWidth;
-    gustCanvas.height = canvasHeight;
-
-    const obliterateCanvas = obliterateCanvasRef.current!;
-    obliterateCanvas.width = canvasWidth;
-    obliterateCanvas.height = canvasHeight;
-
-    const textCtx = textCanvas.getContext('2d')!;
+    const textCtx = textCanvasRef.current.getContext('2d')!;
     textCtx.font = FONT;
 
-    const obliterateCtx = obliterateCanvas.getContext('2d')!;
+    const obliterateCtx = obliterateCanvasRef.current.getContext('2d')!;
     obliterateCtx.font = FONT;
 
     canvasWriterRef.current = new CanvasWriter(textCtx);
@@ -151,3 +138,15 @@ export function Dune({ text = '' }: Props) {
     </>
   );
 }
+
+const StyledCanvas = styled.canvas`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+`;
+
+const StyledHiddenCanvas = styled(StyledCanvas)`
+  display: none;
+`;
