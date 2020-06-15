@@ -5,7 +5,7 @@ import nouns from './nouns';
 import prepositions from './prepositions';
 import quotes from './quotes';
 import verbs from './verbs';
-import { randomElement } from '../../../utils';
+import { randomElement } from '../utils';
 
 export enum WordType {
   NOUN = 'N',

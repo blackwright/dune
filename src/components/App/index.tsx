@@ -1,8 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Dune } from '../Dune';
+import { Generator } from '../Generator';
 import dune from './dune.png';
-import Generator from '../Generator';
+
+export const App: React.FC = () => {
+  const [text, setText] = React.useState('The spice must flow.');
+
+  return (
+    <StyledBackground>
+      <Dune text={text} />
+      <Generator onGenerate={setText} />
+    </StyledBackground>
+  );
+};
 
 const StyledBackground = styled.main`
   background: url(${dune}) no-repeat center center fixed;
@@ -14,26 +25,3 @@ const StyledBackground = styled.main`
   width: 100%;
   height: 100%;
 `;
-
-const App: React.FC = () => {
-  const [text, setText] = useState('The spice must flow.');
-
-  useEffect(() => {
-    window.setTimeout(
-      () =>
-        setText('I’m sorry, Grandfather. You’ve met the Atreides gom jabbar.'),
-      3000
-    );
-
-    window.setTimeout(() => setText('Thus spoke St. Alia of the Knife.'), 8000);
-  }, []);
-
-  return (
-    <StyledBackground>
-      <Dune text={text} />
-      <Generator />
-    </StyledBackground>
-  );
-};
-
-export default App;

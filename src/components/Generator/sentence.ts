@@ -1,5 +1,5 @@
-import { randomElement, capitalize } from '../../utils';
 import { WordType, getRandomWord } from './words';
+import { randomElement, capitalize } from './utils';
 
 const STRUCTURES = [
   'NVCN',

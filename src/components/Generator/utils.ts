@@ -6,38 +6,6 @@ function isInteger(number: number) {
   return modulo(number, 1) === 0;
 }
 
-export function debounced(
-  fn: (...args: any[]) => any,
-  msToWait: number = 500,
-  isImmediate: boolean = false
-) {
-  let timeoutId: number | null = null;
-
-  return function(this: any, ...args: any[]): any {
-    const context = this;
-
-    const delayedFunction = function() {
-      timeoutId = null;
-
-      if (!isImmediate) {
-        fn.apply(context, args);
-      }
-    };
-
-    const shouldCallNow = isImmediate && timeoutId == null;
-
-    if (timeoutId != null) {
-      window.clearTimeout(timeoutId);
-    }
-
-    timeoutId = window.setTimeout(delayedFunction, msToWait);
-
-    if (shouldCallNow) {
-      fn.apply(context, args);
-    }
-  };
-}
-
 export function randomNumberBetween(
   min: number,
   max: number,
@@ -50,6 +18,7 @@ export function randomNumberBetween(
   const randomFloat = min + Math.random() * (max - min + 1);
   return Number(randomFloat.toPrecision(decimalPrecision));
 }
+
 
 export function randomElement(array: any[]) {
   return array[randomNumberBetween(0, array.length - 1)];
