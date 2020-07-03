@@ -14,7 +14,8 @@ export const Dune: React.FC<Props> = ({ text = '' }) => {
   return (
     <>
       <Canvas
-        camera={{ position: [0, 0, 30] }}
+        camera={{ position: [0, 0, 500] }}
+        orthographic={true}
         resize={{ scroll: true, debounce: { scroll: 50, resize: 0 } }}
       >
         <ambientLight intensity={2} />

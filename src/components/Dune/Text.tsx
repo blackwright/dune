@@ -1,7 +1,9 @@
 import React from 'react';
 import * as THREE from 'three';
-import { useLoader, useUpdate } from 'react-three-fiber';
+import { useLoader, useUpdate, useFrame } from 'react-three-fiber';
+import { TessellateModifier } from 'three/examples/jsm/modifiers/TessellateModifier';
 import { TextLayout } from './textLayout';
+import { vertexShader, fragmentShader } from './shader';
 
 type Props = {
   canvas: HTMLCanvasElement;
@@ -10,26 +12,6 @@ type Props = {
 
 export const Text: React.FC<Props> = ({ canvas, children }) => {
   const [textToRender, setTextToRender] = React.useState('');
-
-  const font = useLoader(THREE.FontLoader, '/roboto_regular.json');
-  const shapes = font.generateShapes(textToRender, 20);
-
-  const meshRef = useUpdate<
-    THREE.Mesh<THREE.ShapeBufferGeometry, THREE.MeshNormalMaterial>
-  >(
-    (self) => {
-      self.geometry.computeBoundingBox();
-      const xMid =
-        -0.5 *
-        (self.geometry.boundingBox!.max.x - self.geometry.boundingBox!.min.x);
-      const yMid =
-        -0.5 *
-        (self.geometry.boundingBox!.max.y - self.geometry.boundingBox!.min.y);
-      self.geometry.translate(xMid, yMid, 0);
-      self.position.z = -500;
-    },
-    [textToRender]
-  );
 
   React.useEffect(() => {
     if (!canvas) {
@@ -41,10 +23,49 @@ export const Text: React.FC<Props> = ({ canvas, children }) => {
     setTextToRender(textLayout.generate(children));
   }, [canvas, children]);
 
-  return (
-    <mesh ref={meshRef}>
-      <shapeBufferGeometry attach="geometry" args={[shapes]} />
-      <meshNormalMaterial attach="material" />
-    </mesh>
+  const font = useLoader(THREE.FontLoader, '/roboto_regular.json');
+
+  const geometry = React.useMemo(() => {
+    const textGeometry = new THREE.TextGeometry(textToRender, {
+      size: 40,
+      font,
+    });
+
+    textGeometry.computeVertexNormals();
+
+    const modifier = new TessellateModifier(8);
+
+    for (let i = 0; i < 6; i++) {
+      modifier.modify(textGeometry);
+    }
+
+    return textGeometry;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [textToRender]);
+
+  const material = React.useMemo(() => {
+    return new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0.0 },
+      },
+      vertexShader,
+      fragmentShader,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [textToRender]);
+
+  const meshRef = useUpdate<
+    THREE.Mesh<THREE.TextGeometry, THREE.ShaderMaterial>
+  >(
+    (self) => {
+      self.geometry.center();
+    },
+    [textToRender]
   );
+
+  useFrame(() => {
+    material.uniforms.uTime.value += 1.0;
+  });
+
+  return <mesh ref={meshRef} geometry={geometry} material={material} />;
 };
