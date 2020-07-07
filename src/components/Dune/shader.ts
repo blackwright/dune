@@ -1,26 +1,31 @@
 export const vertexShader = `
 uniform float uTime;
+uniform float uExitTimestamp;
 
-attribute float xOffset;
-attribute float velocity;
+attribute float visibleTime;
+attribute float color;
 
-varying vec3 vNormal;
+varying float vVisibleDiff;
+varying float vColor;
 
 void main() {
-  vec3 newPosition = position;
-  newPosition.x = min(uTime * velocity + xOffset, position.x);
-
-  vNormal = normal;
+  vColor = color;
+  vVisibleDiff = uExitTimestamp > 0.0 && uTime > visibleTime ? uExitTimestamp + visibleTime - uTime : uTime - visibleTime - uExitTimestamp;
 
   gl_PointSize = 3.0;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }
-`.trim();
+`;
 
 export const fragmentShader = `
-varying vec3 vNormal;
+varying float vVisibleDiff;
+varying float vColor;
 
-void main () {
+void main() {
+  if (vVisibleDiff < 0.0) {
+    discard;
+  }
+
   vec2 cxy = 2.0 * gl_PointCoord - 1.0;
   float r = dot(cxy, cxy);
 
@@ -28,6 +33,6 @@ void main () {
     discard;
   }
 
-  gl_FragColor = vec4(vNormal, 1.0);
+  gl_FragColor = vec4(vColor, vColor, vColor, 1.0);
 }
-`.trim();
+`;

@@ -5,7 +5,9 @@ import { Generator } from '../Generator';
 import dune from './dune.png';
 
 export const App: React.FC = () => {
-  const [text, setText] = React.useState('The spice must flow.');
+  const [text, setText] = React.useState(
+    'I must not fear. Fear is the mind-killer.'
+  );
 
   return (
     <StyledBackground>

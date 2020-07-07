@@ -25,10 +25,7 @@ function generatePointWithinBoundingBox(
       geometry.boundingBox!.min.y,
       geometry.boundingBox!.max.y
     ),
-    THREE.MathUtils.randFloat(
-      geometry.boundingBox!.min.z,
-      geometry.boundingBox!.max.z
-    )
+    0.0
   );
 
   if (isPointInside(point, geometry)) {

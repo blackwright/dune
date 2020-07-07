@@ -14,6 +14,7 @@ export const Dune: React.FC<Props> = ({ text = '' }) => {
   return (
     <>
       <Canvas
+        concurrent={true}
         camera={{ position: [0, 0, 50] }}
         resize={{ scroll: true, debounce: { scroll: 50, resize: 0 } }}
       >
