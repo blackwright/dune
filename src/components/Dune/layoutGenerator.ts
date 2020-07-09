@@ -5,7 +5,9 @@ type LineOfText = {
 
 const newLine: LineOfText = { text: '', width: 0 };
 
-export class TextLayout {
+const CANVAS_PADDING = 50;
+
+export class LayoutGenerator {
   private canvasWidth: number;
   private canvasHeight: number;
   private lines: LineOfText[] = [];
@@ -43,7 +45,7 @@ export class TextLayout {
       if (
         nextWord &&
         line.width + spaceWidth + this.ctx.measureText(nextWord).width >
-          this.canvasWidth
+          this.canvasWidth + CANVAS_PADDING
       ) {
         this.maxLineWidth = Math.max(this.maxLineWidth, line.width);
         this.lines.push(line);

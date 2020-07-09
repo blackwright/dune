@@ -1,32 +1,30 @@
 import React from 'react';
 import { Canvas } from 'react-three-fiber';
-import { Text } from './Text';
+import TextLayout from './TextLayout';
 
 type Props = {
   text?: string;
 };
 
 export const Dune: React.FC<Props> = ({ text = '' }) => {
-  const [textCanvas, setTextCanvas] = React.useState<HTMLCanvasElement | null>(
-    null
-  );
+  const [
+    canvasElement,
+    setCanvasElement,
+  ] = React.useState<HTMLCanvasElement | null>(null);
 
   return (
     <>
       <Canvas
-        concurrent={true}
         camera={{ position: [0, 0, 50] }}
         resize={{ scroll: true, debounce: { scroll: 50, resize: 0 } }}
       >
         <ambientLight intensity={2} />
 
-        {textCanvas && (
-          <React.Suspense fallback={null}>
-            <Text canvas={textCanvas}>{text}</Text>
-          </React.Suspense>
+        {canvasElement && (
+          <TextLayout canvas={canvasElement}>{text}</TextLayout>
         )}
       </Canvas>
-      <canvas ref={setTextCanvas} />
+      <canvas ref={setCanvasElement} />
     </>
   );
 };

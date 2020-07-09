@@ -1,4 +1,4 @@
-export const vertexShader = `
+const vertexShader = `
 uniform float uTime;
 uniform float uExitTimestamp;
 
@@ -17,7 +17,7 @@ void main() {
 }
 `;
 
-export const fragmentShader = `
+const fragmentShader = `
 varying float vVisibleDiff;
 varying float vColor;
 
@@ -36,3 +36,12 @@ void main() {
   gl_FragColor = vec4(vColor, vColor, vColor, 1.0);
 }
 `;
+
+export const shader = {
+  uniforms: {
+    uTime: { value: 0.0 },
+    uExitTimestamp: { value: 0.0 },
+  },
+  vertexShader,
+  fragmentShader,
+};
