@@ -1,6 +1,52 @@
 import * as THREE from 'three';
+import { BufferAttributes } from './types';
 
-export function generatePointsWithinBoundingBox(
+export function createBufferAttributes(
+  font: THREE.Font,
+  text: string
+): BufferAttributes {
+  const shapes = font.generateShapes(text, 1.75);
+  const shapeGeometry = new THREE.ShapeGeometry(shapes, 2);
+
+  shapeGeometry.center();
+
+  generatePointsWithinBoundingBox(shapeGeometry, 50 * text.length);
+
+  const { length: vertexCount } = shapeGeometry.vertices;
+
+  const position = new Float32Array(vertexCount * 3);
+  const color = new Float32Array(vertexCount);
+  const visibleTime = new Float32Array(vertexCount);
+
+  let minX = Number.MAX_SAFE_INTEGER;
+
+  for (let i = 0; i < vertexCount; i += 3) {
+    position[i] = shapeGeometry.vertices[i].x;
+    position[i + 1] = shapeGeometry.vertices[i].y;
+    position[i + 2] = shapeGeometry.vertices[i].z;
+
+    minX = Math.min(minX, position[i]);
+
+    color[i / 3] = THREE.MathUtils.randFloat(0.05, 0.1);
+  }
+
+  shapeGeometry.dispose();
+
+  const xOffset = Math.abs(minX);
+
+  for (let i = 0; i < vertexCount; i += 3) {
+    visibleTime[i / 3] =
+      (THREE.MathUtils.randFloat(-10.0, 10.0) + (position[i] + xOffset)) / 40;
+  }
+
+  return [
+    new THREE.BufferAttribute(position, 3),
+    new THREE.BufferAttribute(visibleTime, 1),
+    new THREE.BufferAttribute(color, 1),
+  ];
+}
+
+function generatePointsWithinBoundingBox(
   geometry: THREE.Geometry,
   numberOfPoints: number
 ): void {

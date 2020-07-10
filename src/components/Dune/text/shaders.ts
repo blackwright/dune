@@ -1,6 +1,5 @@
-const vertexShader = `
+const incomingVertexShader = `
 uniform float uTime;
-uniform float uExitTimestamp;
 
 attribute float visibleTime;
 attribute float color;
@@ -10,7 +9,25 @@ varying float vColor;
 
 void main() {
   vColor = color;
-  vVisibleDiff = uExitTimestamp > 0.0 && uTime > visibleTime ? uExitTimestamp + visibleTime - uTime : uTime - visibleTime - uExitTimestamp;
+  vVisibleDiff = uTime - visibleTime;
+
+  gl_PointSize = 3.0;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}
+`;
+
+const outgoingVertexShader = `
+uniform float uTime;
+
+attribute float visibleTime;
+attribute float color;
+
+varying float vVisibleDiff;
+varying float vColor;
+
+void main () {
+  vColor = color;
+  vVisibleDiff = visibleTime - uTime;
 
   gl_PointSize = 3.0;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
@@ -37,11 +54,18 @@ void main() {
 }
 `;
 
-export const shader = {
+export const incomingShader = {
   uniforms: {
     uTime: { value: 0.0 },
-    uExitTimestamp: { value: 0.0 },
   },
-  vertexShader,
+  vertexShader: incomingVertexShader,
+  fragmentShader,
+};
+
+export const outgoingShader = {
+  uniforms: {
+    uTime: { value: 0.0 },
+  },
+  vertexShader: outgoingVertexShader,
   fragmentShader,
 };
