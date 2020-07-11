@@ -11,7 +11,7 @@ void main() {
   vColor = color;
   vVisibleDiff = uTime - visibleTime;
 
-  gl_PointSize = 3.0;
+  gl_PointSize = 1.0;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }
 `;
@@ -29,7 +29,7 @@ void main () {
   vColor = color;
   vVisibleDiff = visibleTime - uTime;
 
-  gl_PointSize = 3.0;
+  gl_PointSize = 1.0;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }
 `;

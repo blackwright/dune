@@ -1,13 +1,11 @@
 import React from 'react';
-import * as THREE from 'three';
-import { useLoader } from 'react-three-fiber';
 import Incoming from './Incoming';
 import Outgoing from './Outgoing';
 import { createBufferAttributes } from './utils';
 import { BufferAttributes } from './types';
 
 type Props = {
-  children: string;
+  position: Float32Array;
 };
 
 type State = {
@@ -15,9 +13,7 @@ type State = {
   outgoing?: BufferAttributes;
 };
 
-const Text: React.FC<Props> = ({ children }) => {
-  const font = useLoader(THREE.FontLoader, '/droid_sans_mono.json');
-
+const Text: React.FC<Props> = ({ position }) => {
   const [state, setState] = React.useState<State>({
     incoming: undefined,
     outgoing: undefined,
@@ -25,16 +21,14 @@ const Text: React.FC<Props> = ({ children }) => {
 
   React.useEffect(() => {
     setState((prevState) => {
-      console.warn('creating buffer attributes for text:', children);
-
-      const incoming = createBufferAttributes(font, children);
+      const incoming = createBufferAttributes(position);
 
       return {
         outgoing: prevState.incoming ? prevState.incoming : undefined,
         incoming,
       };
     });
-  }, [font, children]);
+  }, [position]);
 
   return (
     <>

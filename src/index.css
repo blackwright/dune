@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Droid Sans';
+  src: local('Droid Sans'), url(./fonts/droid_sans.ttf) format('truetype');
+}
+
 * {
   box-sizing: border-box;
 }
@@ -10,5 +15,5 @@ body {
 }
 
 body {
-  font-family: 'Roboto Mono', Arial, Helvetica, sans-serif;
+  font-family: 'Droid Sans', Arial, sans-serif;
 }
