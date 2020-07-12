@@ -4,10 +4,10 @@ import { CanvasTextWrapper } from 'canvas-text-wrapper';
 
 type Props = {
   children: string;
-  onImageData: (imageData: ImageData) => void;
+  onChange: (imageData: ImageData) => void;
 };
 
-const Layout: React.FC<Props> = ({ children, onImageData }) => {
+const ImageData: React.FC<Props> = ({ children, onChange }) => {
   const canvas = React.useRef<HTMLCanvasElement | null>(null);
 
   React.useEffect(() => {
@@ -33,11 +33,11 @@ const Layout: React.FC<Props> = ({ children, onImageData }) => {
       });
 
       const ctx = canvas.current.getContext('2d')!;
-      onImageData(
+      onChange(
         ctx.getImageData(0, 0, canvas.current.width, canvas.current.height)
       );
     }
-  }, [onImageData, children]);
+  }, [onChange, children]);
 
   return <FullScreenCanvas ref={canvas} />;
 };
@@ -49,4 +49,4 @@ const FullScreenCanvas = styled.canvas`
   left: 0;
 `;
 
-export default Layout;
+export default ImageData;

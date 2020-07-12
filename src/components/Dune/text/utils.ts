@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { BufferAttributes } from './types';
+import type { BufferAttributes } from './types';
 
 export function createBufferAttributes(
   position: Float32Array

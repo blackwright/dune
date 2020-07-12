@@ -1,6 +1,7 @@
 import React from 'react';
+import * as THREE from 'three';
 import { Canvas } from 'react-three-fiber';
-import Layout from './layout/Layout';
+import ImageData from './image-data';
 import Text from './text';
 
 type Props = {
@@ -14,7 +15,9 @@ export const Dune: React.FC<Props> = ({ text = '' }) => {
     // canvas image data is a one-dimensional array of RGBA values per pixel
     const pointCoords: number[] = [];
 
-    for (let i = 0; i < imageData.data.length; i += 4) {
+    let i = 0;
+
+    while (i < imageData.data.length) {
       const alpha = imageData.data[i + 3];
 
       if (alpha > 0) {
@@ -23,6 +26,8 @@ export const Dune: React.FC<Props> = ({ text = '' }) => {
 
         pointCoords.push(x, y, 0);
       }
+
+      i += THREE.MathUtils.randInt(1, 7) * 4;
     }
 
     setPosition(Float32Array.from(pointCoords));
@@ -36,7 +41,7 @@ export const Dune: React.FC<Props> = ({ text = '' }) => {
       >
         {position && <Text position={position} />}
       </Canvas>
-      <Layout onImageData={handleImageData}>{text}</Layout>
+      <ImageData onChange={handleImageData}>{text}</ImageData>
     </>
   );
 };

@@ -1,43 +1,17 @@
 import { WordType, getRandomWord } from './words';
+import { structures } from './structures';
 import { randomElement, capitalize } from './utils';
-
-const STRUCTURES = [
-  'NVCN',
-  'NVRAN',
-  'NVRANCNVAN',
-  'RNVPN',
-  'RNVRAN,CNCN',
-  'PRANVRANCRANCVN',
-  'CRNVNPRN',
-  'RNPNVRN,PRNVN',
-  'PNCN,PNCRN',
-  'RNVCNV',
-  'RNV,RNV',
-  'NVPRANPRNVA',
-  'RNVPN,PNCNVA',
-  'NVRN,CNVRNV',
-  'NVAPN',
-  'PNNVPN,CV',
-  'RNV, RNVRAN',
-  'NVRAN,NVAN',
-  'CNVRN,PNNV',
-  'NVRNVRAN',
-  'NPN,NPAN,NPANV',
-  'ANVPNCNV',
-  'ANVPN',
-  'CNCNPRAN'
-];
 
 export default class Sentence {
   private value: string;
 
   constructor() {
-    const randomStructure = randomElement(STRUCTURES);
+    const randomStructure = randomElement(structures);
     this.value = this.build(randomStructure);
   }
 
   private build(structure: string) {
-    const words = (Array.from(structure) as WordType[]).map(wordType =>
+    const words = (Array.from(structure) as WordType[]).map((wordType) =>
       getRandomWord(wordType)
     );
 

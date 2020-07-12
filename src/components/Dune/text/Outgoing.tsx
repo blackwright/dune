@@ -2,7 +2,7 @@ import React from 'react';
 import * as THREE from 'three';
 import { useUpdate, useFrame } from 'react-three-fiber';
 import { outgoingShader } from './shaders';
-import { BufferAttributes } from './types';
+import type { BufferAttributes } from './types';
 
 type Props = {
   attributes: BufferAttributes;

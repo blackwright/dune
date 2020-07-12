@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import Sentence from './sentence';
 
 type Props = {
-  onGenerate: (text: string) => void;
+  onChange: (text: string) => void;
 };
 
-export const Generator: React.FC<Props> = ({ onGenerate }) => {
+export const Generator: React.FC<Props> = ({ onChange }) => {
   const handleClick = () => {
     const sentence = new Sentence().toString();
-    onGenerate(sentence);
+    onChange(sentence);
   };
 
   return <StyledButton onClick={handleClick}>Test</StyledButton>;

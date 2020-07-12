@@ -2,7 +2,7 @@ import React from 'react';
 import Incoming from './Incoming';
 import Outgoing from './Outgoing';
 import { createBufferAttributes } from './utils';
-import { BufferAttributes } from './types';
+import type { BufferAttributes } from './types';
 
 type Props = {
   position: Float32Array;

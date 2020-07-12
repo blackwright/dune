@@ -10,7 +10,7 @@ export const App: React.FC = () => {
   return (
     <StyledBackground>
       <Dune text={text} />
-      <Generator onGenerate={setText} />
+      <Generator onChange={setText} />
     </StyledBackground>
   );
 };
