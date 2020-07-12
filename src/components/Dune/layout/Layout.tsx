@@ -17,7 +17,6 @@ const Layout: React.FC<Props> = ({ children, onImageData }) => {
 
       const ctx = canvas.current.getContext('2d')!;
       ctx.fillStyle = 'black';
-      ctx.font = 'Droid Sans';
     }
   });
 

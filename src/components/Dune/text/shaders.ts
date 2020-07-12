@@ -2,13 +2,10 @@ const incomingVertexShader = `
 uniform float uTime;
 
 attribute float visibleTime;
-attribute float color;
 
 varying float vVisibleDiff;
-varying float vColor;
 
 void main() {
-  vColor = color;
   vVisibleDiff = uTime - visibleTime;
 
   gl_PointSize = 1.0;
@@ -20,13 +17,10 @@ const outgoingVertexShader = `
 uniform float uTime;
 
 attribute float visibleTime;
-attribute float color;
 
 varying float vVisibleDiff;
-varying float vColor;
 
 void main () {
-  vColor = color;
   vVisibleDiff = visibleTime - uTime;
 
   gl_PointSize = 1.0;
@@ -36,7 +30,6 @@ void main () {
 
 const fragmentShader = `
 varying float vVisibleDiff;
-varying float vColor;
 
 void main() {
   if (vVisibleDiff < 0.0) {
@@ -50,7 +43,7 @@ void main() {
     discard;
   }
 
-  gl_FragColor = vec4(vColor, vColor, vColor, 1.0);
+  gl_FragColor = vec4(0.15, 0.15, 0.15, 1.0);
 }
 `;
 
