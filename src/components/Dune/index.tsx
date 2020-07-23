@@ -9,7 +9,7 @@ type Props = {
   text?: string;
 };
 
-export const Dune: React.FC<Props> = ({ text = '' }) => {
+const Dune: React.FC<Props> = ({ text = '' }) => {
   const [position, setPosition] = React.useState<Float32Array | null>(null);
 
   const handleImageData = React.useCallback((imageData: ImageData) => {
@@ -50,3 +50,5 @@ export const Dune: React.FC<Props> = ({ text = '' }) => {
     </>
   );
 };
+
+export default Dune;

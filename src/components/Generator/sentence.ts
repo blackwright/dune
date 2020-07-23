@@ -15,7 +15,7 @@ export default class Sentence {
       getRandomWord(wordType)
     );
 
-    const sentence = words.join(' ').replaceAll(' , ', ',');
+    const sentence = words.join(' ').replace(/\s,\s/g, ',');
     return capitalize(sentence) + '.';
   }
 

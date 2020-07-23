@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Dune } from '../Dune';
-import { Generator } from '../Generator';
+import Dune from '../Dune';
+import Generator from '../Generator';
 import dune from './dune.png';
 
 export const App: React.FC = () => {
@@ -10,7 +10,7 @@ export const App: React.FC = () => {
   return (
     <StyledBackground>
       <Dune text={text} />
-      <Generator onChange={setText} />
+      <Generator min={1} max={3} onChange={setText} />
     </StyledBackground>
   );
 };
