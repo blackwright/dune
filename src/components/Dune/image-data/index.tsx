@@ -23,12 +23,12 @@ const ImageData: React.FC<Props> = ({ children, onChange }) => {
   React.useEffect(() => {
     if (canvas.current) {
       CanvasTextWrapper(canvas.current, children, {
-        font: '36px "Droid Sans", sans-serif',
-        maxFontSizeToFill: 40,
+        font: '24px "Droid Sans", sans-serif',
+        maxFontSizeToFill: 24,
         textAlign: 'center',
         verticalAlign: 'middle',
         sizeToFill: true,
-        paddingX: canvas.current.width / 5,
+        paddingX: canvas.current.width / 3,
         paddingY: canvas.current.height / 4,
       });
 

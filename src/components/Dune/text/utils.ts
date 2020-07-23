@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import { MathUtils, BufferAttribute } from 'three';
 import type { BufferAttributes } from './types';
 
 export function createBufferAttributes(
@@ -15,13 +15,12 @@ export function createBufferAttributes(
 
   for (let i = 0; i < vertexCount; i++) {
     visibleTime[i] =
-      (THREE.MathUtils.randFloat(-200.0, 200.0) + (position[i * 3] + xOffset)) /
-      500;
+      (MathUtils.randFloat(-200.0, 200.0) + (position[i * 3] + xOffset)) / 500;
   }
 
   return [
-    new THREE.BufferAttribute(position, 3),
-    new THREE.BufferAttribute(visibleTime, 1),
-    new THREE.BufferAttribute(color, 1),
+    new BufferAttribute(position, 3),
+    new BufferAttribute(visibleTime, 1),
+    new BufferAttribute(color, 1),
   ];
 }

@@ -9,7 +9,6 @@ void main() {
   vVisibleDiff = uTime - visibleTime - 2.0;
 
   gl_PointSize = 2.0;
-  
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }
 `;
@@ -49,7 +48,7 @@ void main() {
     discard;
   }
 
-  float randColor = random(gl_PointCoord) * 0.2;
+  float randColor = random(gl_PointCoord) * 0.3;
 
   gl_FragColor = vec4(vec3(randColor), 1.0);
 }

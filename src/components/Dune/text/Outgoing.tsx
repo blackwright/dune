@@ -1,5 +1,5 @@
 import React from 'react';
-import * as THREE from 'three';
+import { Clock } from 'three';
 import { useUpdate, useFrame } from 'react-three-fiber';
 import { outgoingShader } from './shaders';
 import type { BufferAttributes } from './types';
@@ -9,7 +9,7 @@ type Props = {
 };
 
 const Outgoing: React.FC<Props> = ({ attributes }) => {
-  const clock = React.useRef(new THREE.Clock());
+  const clock = React.useRef(new Clock());
 
   const geometry = useUpdate<THREE.BufferGeometry>(
     (geometry) => {

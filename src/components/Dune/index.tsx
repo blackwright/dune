@@ -1,8 +1,9 @@
 import React from 'react';
-import * as THREE from 'three';
+import { MathUtils } from 'three';
 import { Canvas } from 'react-three-fiber';
 import ImageData from './image-data';
 import Text from './text';
+import Wind from './wind';
 
 type Props = {
   text?: string;
@@ -24,10 +25,10 @@ export const Dune: React.FC<Props> = ({ text = '' }) => {
         const x = ((i / 4) % imageData.width) - imageData.width / 2;
         const y = -((i / 4 - x) / imageData.width - imageData.height / 2);
 
-        pointCoords.push(x, y, 0);
+        pointCoords.push(x, y, -10);
       }
 
-      i += THREE.MathUtils.randInt(1, 7) * 4;
+      i += MathUtils.randInt(1, 7) * 4;
     }
 
     setPosition(Float32Array.from(pointCoords));
@@ -36,10 +37,14 @@ export const Dune: React.FC<Props> = ({ text = '' }) => {
   return (
     <>
       <Canvas
-        camera={{ position: [0, 0, 1000] }}
+        orthographic={true}
+        camera={{ position: [0, 0, 0], far: 3000 }}
         resize={{ scroll: true, debounce: { scroll: 50, resize: 0 } }}
       >
-        {position && <Text position={position} />}
+        <>
+          {position && <Text position={position} />}
+          <Wind level={0} />
+        </>
       </Canvas>
       <ImageData onChange={handleImageData}>{text}</ImageData>
     </>
