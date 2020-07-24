@@ -7,9 +7,10 @@ import Wind from './wind';
 
 type Props = {
   text?: string;
+  onComplete?: () => void;
 };
 
-const Dune: React.FC<Props> = ({ text = '' }) => {
+const Dune: React.FC<Props> = ({ text = '', onComplete }) => {
   const [position, setPosition] = React.useState<Float32Array | null>(null);
 
   const handleImageData = React.useCallback((imageData: ImageData) => {
@@ -25,10 +26,10 @@ const Dune: React.FC<Props> = ({ text = '' }) => {
         const x = ((i / 4) % imageData.width) - imageData.width / 2;
         const y = -((i / 4 - x) / imageData.width - imageData.height / 2);
 
-        pointCoords.push(x, y, -10);
+        pointCoords.push(x, y, -1);
       }
 
-      i += MathUtils.randInt(1, 7) * 4;
+      i += MathUtils.randInt(1, 12) * 4;
     }
 
     setPosition(Float32Array.from(pointCoords));
@@ -37,12 +38,13 @@ const Dune: React.FC<Props> = ({ text = '' }) => {
   return (
     <>
       <Canvas
+        concurrent={true}
         orthographic={true}
-        camera={{ position: [0, 0, 0], far: 3000 }}
+        camera={{ position: [0, 0, 0], far: 500 }}
         resize={{ scroll: true, debounce: { scroll: 50, resize: 0 } }}
       >
         <>
-          {position && <Text position={position} />}
+          {position && <Text position={position} onComplete={onComplete} />}
           <Wind level={0} />
         </>
       </Canvas>

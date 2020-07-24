@@ -1,12 +1,13 @@
 const incomingVertexShader = `
 uniform float uTime;
+uniform float uDelay;
 
 attribute float visibleTime;
 
 varying float vVisibleDiff;
 
 void main() {
-  vVisibleDiff = uTime - visibleTime - 2.0;
+  vVisibleDiff = uTime - visibleTime - uDelay;
 
   gl_PointSize = 2.0;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
@@ -54,12 +55,15 @@ void main() {
 }
 `;
 
-export const incomingShader = {
-  uniforms: {
-    uTime: { value: 0.0 },
-  },
-  vertexShader: incomingVertexShader,
-  fragmentShader,
+export const incomingShader = (uDelay: number) => {
+  return {
+    uniforms: {
+      uTime: { value: 0.0 },
+      uDelay: { value: uDelay },
+    },
+    vertexShader: incomingVertexShader,
+    fragmentShader,
+  };
 };
 
 export const outgoingShader = {

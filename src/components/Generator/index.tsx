@@ -6,9 +6,10 @@ type Props = {
   min: number;
   max: number;
   onChange: (text: string) => void;
+  disabled?: boolean;
 };
 
-const Generator: React.FC<Props> = ({ min, max, onChange }) => {
+const Generator: React.FC<Props> = ({ min, max, onChange, disabled }) => {
   const paragraph = React.useMemo(() => new Paragraph({ min, max }), [
     min,
     max,
@@ -18,7 +19,11 @@ const Generator: React.FC<Props> = ({ min, max, onChange }) => {
     onChange(paragraph.build().toString());
   };
 
-  return <StyledButton onClick={handleClick}>Test</StyledButton>;
+  return (
+    <StyledButton onClick={handleClick} disabled={disabled}>
+      Test
+    </StyledButton>
+  );
 };
 
 const StyledButton = styled.button`

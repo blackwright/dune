@@ -31,7 +31,9 @@ const Outgoing: React.FC<Props> = ({ attributes }) => {
   );
 
   useFrame(() => {
-    material.current.uniforms.uTime.value += clock.current.getDelta();
+    if (material.current) {
+      material.current.uniforms.uTime.value += clock.current.getDelta();
+    }
   });
 
   return (

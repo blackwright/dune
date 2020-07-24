@@ -7,16 +7,34 @@ import dune from './dune.png';
 export const App: React.FC = () => {
   const [text, setText] = React.useState('All paths lead to darkness.');
 
+  const [isRendering, setIsRendering] = React.useState(true);
+
+  const handleChange = (newText: string) => {
+    if (isRendering) {
+      return;
+    }
+
+    setIsRendering(true);
+    setText(newText);
+  };
+
+  const handleComplete = React.useCallback(() => setIsRendering(false), []);
+
   return (
     <StyledBackground>
-      <Dune text={text} />
-      <Generator min={1} max={3} onChange={setText} />
+      <Dune text={text} onComplete={handleComplete} />
+      <Generator
+        min={1}
+        max={3}
+        onChange={handleChange}
+        disabled={isRendering}
+      />
     </StyledBackground>
   );
 };
 
 const StyledBackground = styled.main`
-  background: url(${dune}) no-repeat center center fixed;
+  /* background: url(${dune}) no-repeat center center fixed; */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

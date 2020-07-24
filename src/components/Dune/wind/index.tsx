@@ -36,7 +36,7 @@ const Wind: React.FC<Props> = ({ level }) => {
 
   useFrame(() => {
     if (points.current) {
-      points.current.rotation.y -= 0.01;
+      points.current.rotation.y -= 0.01 * (level + 1);
     }
 
     if (material.current) {
