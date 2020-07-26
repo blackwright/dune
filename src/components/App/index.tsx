@@ -24,8 +24,9 @@ export const App: React.FC = () => {
     <StyledBackground>
       <Dune text={text} isRendering={isRendering} onComplete={handleComplete} />
       <Generator
-        min={1}
-        max={3}
+        paragraphs={2}
+        minSentences={1}
+        maxSentences={3}
         onChange={handleChange}
         disabled={isRendering}
       />
@@ -39,6 +40,8 @@ const StyledBackground = styled.main`
   -o-background-size: cover;
   background-size: cover;
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
 `;
