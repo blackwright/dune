@@ -1,9 +1,9 @@
 import React from 'react';
 import { MathUtils } from 'three';
 import { Canvas } from 'react-three-fiber';
-import ImageData from './image-data';
-import Text from './text';
-import Wind from './wind';
+import { ImageData } from './image-data';
+import { Text } from './text';
+import { Wind } from './wind';
 
 type Props = {
   text: string;
@@ -11,7 +11,11 @@ type Props = {
   onComplete?: () => void;
 };
 
-const Dune: React.FC<Props> = ({ text = '', isRendering, onComplete }) => {
+export const Dune: React.FC<Props> = ({
+  text = '',
+  isRendering,
+  onComplete,
+}) => {
   const [position, setPosition] = React.useState<Float32Array | null>(null);
 
   const handleImageData = React.useCallback((imageData: ImageData) => {
@@ -53,5 +57,3 @@ const Dune: React.FC<Props> = ({ text = '', isRendering, onComplete }) => {
     </>
   );
 };
-
-export default Dune;

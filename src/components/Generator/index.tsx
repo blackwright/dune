@@ -9,7 +9,12 @@ type Props = {
   disabled?: boolean;
 };
 
-const Generator: React.FC<Props> = ({ min, max, onChange, disabled }) => {
+export const Generator: React.FC<Props> = ({
+  min,
+  max,
+  onChange,
+  disabled,
+}) => {
   const paragraph = React.useMemo(() => new Paragraph({ min, max }), [
     min,
     max,
@@ -32,5 +37,3 @@ const StyledButton = styled.button`
   left: 50%;
   transform: translate3d(-50%, 0 0);
 `;
-
-export default Generator;

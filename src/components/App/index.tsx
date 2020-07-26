@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Dune from '../Dune';
-import Generator from '../Generator';
+import { Dune } from '../Dune';
+import { Generator } from '../Generator';
 import { getRandomQuote } from '../Generator/words';
 
 export const App: React.FC = () => {

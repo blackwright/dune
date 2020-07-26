@@ -12,7 +12,7 @@ type Props = {
   onComplete?: () => void;
 };
 
-const Incoming: React.FC<Props> = ({
+export const Incoming: React.FC<Props> = ({
   attributes,
   maxVisibleTime,
   onComplete,
@@ -68,5 +68,3 @@ const Incoming: React.FC<Props> = ({
     </points>
   );
 };
-
-export default Incoming;

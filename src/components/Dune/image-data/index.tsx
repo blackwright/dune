@@ -7,7 +7,7 @@ type Props = {
   onChange: (imageData: ImageData) => void;
 };
 
-const ImageData: React.FC<Props> = ({ children, onChange }) => {
+export const ImageData: React.FC<Props> = ({ children, onChange }) => {
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
   React.useEffect(() => {
@@ -53,5 +53,3 @@ const FullScreenCanvas = styled.canvas`
   top: 0;
   left: 0;
 `;
-
-export default ImageData;

@@ -8,7 +8,7 @@ type Props = {
   attributes: BufferAttributes;
 };
 
-const Outgoing: React.FC<Props> = ({ attributes }) => {
+export const Outgoing: React.FC<Props> = ({ attributes }) => {
   const clockRef = React.useRef(new Clock());
 
   const geometryRef = useUpdate<THREE.BufferGeometry>(
@@ -47,5 +47,3 @@ const Outgoing: React.FC<Props> = ({ attributes }) => {
     </points>
   );
 };
-
-export default Outgoing;

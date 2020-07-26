@@ -1,6 +1,6 @@
 import React from 'react';
-import Incoming from './Incoming';
-import Outgoing from './Outgoing';
+import { Incoming } from './Incoming';
+import { Outgoing } from './Outgoing';
 import { createBufferAttributes } from './utils';
 import type { BufferAttributes } from './types';
 
@@ -15,7 +15,7 @@ type State = {
   maxVisibleTime?: number;
 };
 
-const Text: React.FC<Props> = ({ position, onComplete }) => {
+export const Text: React.FC<Props> = ({ position, onComplete }) => {
   const [state, setState] = React.useState<State>({
     incoming: undefined,
     outgoing: undefined,
@@ -49,5 +49,3 @@ const Text: React.FC<Props> = ({ position, onComplete }) => {
     </>
   );
 };
-
-export default Text;

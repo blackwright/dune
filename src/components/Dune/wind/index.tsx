@@ -9,7 +9,7 @@ type Props = {
   isRendering: boolean;
 };
 
-const Wind: React.FC<Props> = ({ particleCount, isRendering }) => {
+export const Wind: React.FC<Props> = ({ particleCount, isRendering }) => {
   const clockRef = React.useRef(new Clock());
 
   const rotationDiffRef = React.useRef(0.01);
@@ -62,5 +62,3 @@ const Wind: React.FC<Props> = ({ particleCount, isRendering }) => {
     </points>
   );
 };
-
-export default Wind;
