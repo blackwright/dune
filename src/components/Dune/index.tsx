@@ -47,6 +47,7 @@ export const Dune: React.FC<Props> = ({
         orthographic={true}
         camera={{ position: [0, 0, 0], far: 500 }}
         resize={{ scroll: true, debounce: { scroll: 50, resize: 0 } }}
+        pixelRatio={window.devicePixelRatio}
       >
         <>
           {position && (

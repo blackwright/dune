@@ -6,7 +6,7 @@ varying float vPositionZ;
 void main() {
   vPositionZ = position.z;
   
-  gl_PointSize = 3.0;
+  gl_PointSize = 6.0;
 
   vec3 newPosition = vec3(position.x, position.y + sin(uTime), position.z);
   
@@ -18,11 +18,11 @@ export const fragmentShader = `
 varying float vPositionZ;
 
 void main() {
-  vec2 cxy = 3.0 * gl_PointCoord - 1.5;
+  vec2 cxy = 6.0 * gl_PointCoord - 3.0;
 
   float r = dot(cxy, cxy);
 
-  if (r > 1.5) {
+  if (r > 3.0) {
     discard;
   }
 

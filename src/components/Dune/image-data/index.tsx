@@ -23,13 +23,13 @@ export const ImageData: React.FC<Props> = ({ children, onChange }) => {
   React.useEffect(() => {
     if (canvasRef.current) {
       CanvasTextWrapper(canvasRef.current, children, {
-        font: '24px "Droid Sans", sans-serif',
+        font: '12px "Droid Sans", sans-serif',
         maxFontSizeToFill: 24,
         textAlign: 'center',
         verticalAlign: 'middle',
         sizeToFill: true,
         paddingX: canvasRef.current.width / 3,
-        paddingY: canvasRef.current.height / 4,
+        paddingY: canvasRef.current.height / 3,
       });
 
       const ctx = canvasRef.current.getContext('2d')!;

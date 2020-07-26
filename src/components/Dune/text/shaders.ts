@@ -9,7 +9,7 @@ varying float vVisibleDiff;
 void main() {
   vVisibleDiff = uTime - visibleTime - uDelay;
 
-  gl_PointSize = 2.0;
+  gl_PointSize = 4.0;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }
 `;
@@ -24,7 +24,7 @@ varying float vVisibleDiff;
 void main () {
   vVisibleDiff = visibleTime - uTime;
 
-  gl_PointSize = 2.0;
+  gl_PointSize = 4.0;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }
 `;
@@ -37,11 +37,11 @@ void main() {
     discard;
   }
 
-  vec2 cxy = 2.0 * gl_PointCoord - 1.0;
+  vec2 cxy = 4.0 * gl_PointCoord - 2.0;
 
   float r = dot(cxy, cxy);
 
-  if (r > 1.0) {
+  if (r > 2.0) {
     discard;
   }
 
