@@ -4,16 +4,16 @@ import { useUpdate, useFrame } from 'react-three-fiber';
 import { incomingShader } from './shaders';
 import type { BufferAttributes } from './types';
 
-const INCOMING_DELAY = 2.0;
-
 type Props = {
   attributes: BufferAttributes;
+  incomingDelay: number;
   maxVisibleTime: number;
   onComplete?: () => void;
 };
 
 export const Incoming: React.FC<Props> = ({
   attributes,
+  incomingDelay,
   maxVisibleTime,
   onComplete,
 }) => {
@@ -44,7 +44,9 @@ export const Incoming: React.FC<Props> = ({
     [attributes]
   );
 
-  const shader = React.useMemo(() => incomingShader(INCOMING_DELAY), []);
+  const shader = React.useMemo(() => incomingShader(incomingDelay), [
+    incomingDelay,
+  ]);
 
   useFrame(() => {
     if (materialRef.current) {
@@ -52,7 +54,7 @@ export const Incoming: React.FC<Props> = ({
 
       if (
         materialRef.current.uniforms.uTime.value >
-          maxVisibleTime + INCOMING_DELAY &&
+          maxVisibleTime + incomingDelay &&
         !hasCompletedRef.current
       ) {
         hasCompletedRef.current = true;

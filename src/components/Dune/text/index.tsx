@@ -6,6 +6,7 @@ import type { BufferAttributes } from './types';
 
 type Props = {
   position: Float32Array;
+  incomingDelay: number;
   onComplete?: () => void;
 };
 
@@ -15,7 +16,11 @@ type State = {
   maxVisibleTime?: number;
 };
 
-export const Text: React.FC<Props> = ({ position, onComplete }) => {
+export const Text: React.FC<Props> = ({
+  position,
+  incomingDelay,
+  onComplete,
+}) => {
   const [state, setState] = React.useState<State>({
     incoming: undefined,
     outgoing: undefined,
@@ -41,6 +46,7 @@ export const Text: React.FC<Props> = ({ position, onComplete }) => {
       {state.incoming && state.maxVisibleTime && (
         <Incoming
           attributes={state.incoming}
+          incomingDelay={incomingDelay}
           maxVisibleTime={state.maxVisibleTime}
           onComplete={onComplete}
         />
