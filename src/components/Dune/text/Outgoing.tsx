@@ -9,9 +9,9 @@ type Props = {
 };
 
 const Outgoing: React.FC<Props> = ({ attributes }) => {
-  const clock = React.useRef(new Clock());
+  const clockRef = React.useRef(new Clock());
 
-  const geometry = useUpdate<THREE.BufferGeometry>(
+  const geometryRef = useUpdate<THREE.BufferGeometry>(
     (geometry) => {
       const [position, visibleTime, color] = attributes;
 
@@ -22,25 +22,25 @@ const Outgoing: React.FC<Props> = ({ attributes }) => {
     [attributes]
   );
 
-  const material = useUpdate<THREE.ShaderMaterial>(
+  const materialRef = useUpdate<THREE.ShaderMaterial>(
     (material) => {
       material.uniforms.uTime.value = 0.0;
-      clock.current.start();
+      clockRef.current.start();
     },
     [attributes]
   );
 
   useFrame(() => {
-    if (material.current) {
-      material.current.uniforms.uTime.value += clock.current.getDelta();
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value += clockRef.current.getDelta();
     }
   });
 
   return (
     <points>
-      <bufferGeometry ref={geometry} attach="geometry" />
+      <bufferGeometry ref={geometryRef} attach="geometry" />
       <shaderMaterial
-        ref={material}
+        ref={materialRef}
         attach="material"
         args={[outgoingShader]}
       />

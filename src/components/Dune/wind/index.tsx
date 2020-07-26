@@ -9,11 +9,11 @@ type Props = {
 };
 
 const Wind: React.FC<Props> = ({ isRendering }) => {
-  const clock = React.useRef(new Clock());
+  const clockRef = React.useRef(new Clock());
 
-  const rotationDiff = React.useRef(0.01);
+  const rotationDiffRef = React.useRef(0.01);
 
-  const points = useUpdate<THREE.Points>((points) => {
+  const pointsRef = useUpdate<THREE.Points>((points) => {
     const geometry = new Geometry();
 
     const maxX = window.innerWidth / 2;
@@ -32,32 +32,32 @@ const Wind: React.FC<Props> = ({ isRendering }) => {
     points.geometry = geometry;
   }, []);
 
-  const material = useUpdate<THREE.ShaderMaterial>((material) => {
+  const materialRef = useUpdate<THREE.ShaderMaterial>((material) => {
     material.uniforms.uTime.value = 0.0;
-    clock.current.start();
+    clockRef.current.start();
   }, []);
 
   useFrame(() => {
-    if (points.current) {
+    if (pointsRef.current) {
       const newRotationDiff = lerp(
-        rotationDiff.current,
+        rotationDiffRef.current,
         isRendering ? 0.1 : 0.01,
         0.02
       );
 
-      rotationDiff.current = newRotationDiff;
+      rotationDiffRef.current = newRotationDiff;
 
-      points.current.rotation.y -= newRotationDiff;
+      pointsRef.current.rotation.y -= newRotationDiff;
     }
 
-    if (material.current) {
-      material.current.uniforms.uTime.value += clock.current.getDelta();
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value += clockRef.current.getDelta();
     }
   });
 
   return (
-    <points ref={points}>
-      <shaderMaterial ref={material} attach="material" args={[shader]} />
+    <points ref={pointsRef}>
+      <shaderMaterial ref={materialRef} attach="material" args={[shader]} />
     </points>
   );
 };

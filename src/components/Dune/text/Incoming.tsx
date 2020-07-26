@@ -17,15 +17,15 @@ const Incoming: React.FC<Props> = ({
   maxVisibleTime,
   onComplete,
 }) => {
-  const clock = React.useRef(new Clock());
+  const clockRef = React.useRef(new Clock());
 
-  const hasCompleted = React.useRef(false);
+  const hasCompletedRef = React.useRef(false);
 
   React.useEffect(() => {
-    hasCompleted.current = false;
+    hasCompletedRef.current = false;
   }, [attributes]);
 
-  const geometry = useUpdate<THREE.BufferGeometry>(
+  const geometryRef = useUpdate<THREE.BufferGeometry>(
     (geometry) => {
       const [position, visibleTime, color] = attributes;
 
@@ -36,10 +36,10 @@ const Incoming: React.FC<Props> = ({
     [attributes]
   );
 
-  const material = useUpdate<THREE.ShaderMaterial>(
+  const materialRef = useUpdate<THREE.ShaderMaterial>(
     (material) => {
       material.uniforms.uTime.value = 0.0;
-      clock.current.start();
+      clockRef.current.start();
     },
     [attributes]
   );
@@ -47,15 +47,15 @@ const Incoming: React.FC<Props> = ({
   const shader = React.useMemo(() => incomingShader(INCOMING_DELAY), []);
 
   useFrame(() => {
-    if (material.current) {
-      material.current.uniforms.uTime.value += clock.current.getDelta();
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value += clockRef.current.getDelta();
 
       if (
-        material.current.uniforms.uTime.value >
+        materialRef.current.uniforms.uTime.value >
           maxVisibleTime + INCOMING_DELAY &&
-        !hasCompleted.current
+        !hasCompletedRef.current
       ) {
-        hasCompleted.current = true;
+        hasCompletedRef.current = true;
         onComplete?.();
       }
     }
@@ -63,8 +63,8 @@ const Incoming: React.FC<Props> = ({
 
   return (
     <points>
-      <bufferGeometry ref={geometry} attach="geometry" />
-      <shaderMaterial ref={material} attach="material" args={[shader]} />
+      <bufferGeometry ref={geometryRef} attach="geometry" />
+      <shaderMaterial ref={materialRef} attach="material" args={[shader]} />
     </points>
   );
 };
