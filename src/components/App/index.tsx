@@ -34,7 +34,6 @@ export const App: React.FC = () => {
 };
 
 const StyledBackground = styled.main`
-  /* background: url(${dune}) no-repeat center center fixed; */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
