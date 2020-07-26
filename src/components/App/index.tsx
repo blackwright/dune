@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import Dune from '../Dune';
 import Generator from '../Generator';
-import dune from './dune.png';
+import { getRandomQuote } from '../Generator/words';
 
 export const App: React.FC = () => {
-  const [text, setText] = React.useState('All paths lead to darkness.');
+  const [text, setText] = React.useState(getRandomQuote());
 
   const [isRendering, setIsRendering] = React.useState(true);
 
