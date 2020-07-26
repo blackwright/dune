@@ -5,10 +5,11 @@ import { shader } from './shader';
 import { lerp } from './utils';
 
 type Props = {
+  particleCount: number;
   isRendering: boolean;
 };
 
-const Wind: React.FC<Props> = ({ isRendering }) => {
+const Wind: React.FC<Props> = ({ particleCount, isRendering }) => {
   const clockRef = React.useRef(new Clock());
 
   const rotationDiffRef = React.useRef(0.01);
@@ -19,7 +20,7 @@ const Wind: React.FC<Props> = ({ isRendering }) => {
     const maxX = window.innerWidth / 2;
     const maxY = window.innerHeight / 2;
 
-    for (let i = 0; i < 4_000; i++) {
+    for (let i = 0; i < particleCount; i++) {
       geometry.vertices.push(
         new Vector3(
           MathUtils.randInt(-maxX, maxX),

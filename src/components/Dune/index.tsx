@@ -46,7 +46,7 @@ const Dune: React.FC<Props> = ({ text = '', isRendering, onComplete }) => {
       >
         <>
           {position && <Text position={position} onComplete={onComplete} />}
-          <Wind isRendering={isRendering} />
+          <Wind particleCount={2_000} isRendering={isRendering} />
         </>
       </Canvas>
       <ImageData onChange={handleImageData}>{text}</ImageData>
