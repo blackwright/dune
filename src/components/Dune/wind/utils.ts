@@ -22,3 +22,7 @@ export function getVisibleHeight(
 
   return Math.tan(verticalFovRadians / 2) * depth * 2;
 }
+
+export function lerp(value1: number, value2: number, t: number) {
+  return value1 * (1 - t) + value2 * t;
+}

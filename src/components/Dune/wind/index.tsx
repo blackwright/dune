@@ -2,13 +2,16 @@ import React from 'react';
 import { Clock, Geometry, MathUtils, Vector3 } from 'three';
 import { useUpdate, useFrame } from 'react-three-fiber';
 import { shader } from './shader';
+import { lerp } from './utils';
 
 type Props = {
-  level: 0 | 1;
+  isRendering: boolean;
 };
 
-const Wind: React.FC<Props> = ({ level }) => {
+const Wind: React.FC<Props> = ({ isRendering }) => {
   const clock = React.useRef(new Clock());
+
+  const rotationDiff = React.useRef(0.01);
 
   const points = useUpdate<THREE.Points>((points) => {
     const geometry = new Geometry();
@@ -36,7 +39,15 @@ const Wind: React.FC<Props> = ({ level }) => {
 
   useFrame(() => {
     if (points.current) {
-      points.current.rotation.y -= 0.01 * (level + 1);
+      const newRotationDiff = lerp(
+        rotationDiff.current,
+        isRendering ? 0.1 : 0.01,
+        0.02
+      );
+
+      rotationDiff.current = newRotationDiff;
+
+      points.current.rotation.y -= newRotationDiff;
     }
 
     if (material.current) {

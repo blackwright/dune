@@ -6,11 +6,12 @@ import Text from './text';
 import Wind from './wind';
 
 type Props = {
-  text?: string;
+  text: string;
+  isRendering: boolean;
   onComplete?: () => void;
 };
 
-const Dune: React.FC<Props> = ({ text = '', onComplete }) => {
+const Dune: React.FC<Props> = ({ text = '', isRendering, onComplete }) => {
   const [position, setPosition] = React.useState<Float32Array | null>(null);
 
   const handleImageData = React.useCallback((imageData: ImageData) => {
@@ -45,7 +46,7 @@ const Dune: React.FC<Props> = ({ text = '', onComplete }) => {
       >
         <>
           {position && <Text position={position} onComplete={onComplete} />}
-          <Wind level={0} />
+          <Wind isRendering={isRendering} />
         </>
       </Canvas>
       <ImageData onChange={handleImageData}>{text}</ImageData>

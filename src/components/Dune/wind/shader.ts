@@ -1,7 +1,11 @@
 export const vertexShader = `
 uniform float uTime;
 
+varying float vPositionZ;
+
 void main() {
+  vPositionZ = position.z;
+  
   gl_PointSize = 3.0;
 
   vec3 newPosition = vec3(position.x, position.y + sin(uTime), position.z);
@@ -11,9 +15,7 @@ void main() {
 `;
 
 export const fragmentShader = `
-float random(vec2 st) {
-  return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
-}
+varying float vPositionZ;
 
 void main() {
   vec2 cxy = 3.0 * gl_PointCoord - 1.5;
@@ -24,9 +26,7 @@ void main() {
     discard;
   }
 
-  float randColor = random(gl_PointCoord) * 0.1;
-
-  gl_FragColor = vec4(vec3(randColor), 1.0);
+  gl_FragColor = vec4(0.9, 0.3, 0.0, fract(sin(vPositionZ)));
 }
 `;
 

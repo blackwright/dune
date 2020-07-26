@@ -22,7 +22,7 @@ export const App: React.FC = () => {
 
   return (
     <StyledBackground>
-      <Dune text={text} onComplete={handleComplete} />
+      <Dune text={text} isRendering={isRendering} onComplete={handleComplete} />
       <Generator
         min={1}
         max={3}

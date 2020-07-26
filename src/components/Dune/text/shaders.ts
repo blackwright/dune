@@ -32,10 +32,6 @@ void main () {
 const fragmentShader = `
 varying float vVisibleDiff;
 
-float random(vec2 st) {
-  return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
-}
-
 void main() {
   if (vVisibleDiff < 0.0) {
     discard;
@@ -49,9 +45,7 @@ void main() {
     discard;
   }
 
-  float randColor = random(gl_PointCoord) * 0.3;
-
-  gl_FragColor = vec4(vec3(randColor), 1.0);
+  gl_FragColor = vec4(0.9, 0.3, 0.0, 1.0);
 }
 `;
 
