@@ -31,6 +31,8 @@ export const ImageData: React.FC<Props> = ({ children, onChange }) => {
         textAlign: 'center',
         verticalAlign: 'middle',
         sizeToFill: true,
+        paddingX: canvasRef.current.width / 3,
+        paddingY: canvasRef.current.height / 3,
       });
 
       const ctx = canvasRef.current.getContext('2d')!;
