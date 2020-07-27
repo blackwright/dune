@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/dune/precache-manifest.44f0e3efcaf4bf4d97b82dcfe28c75a2.js"
+  "/dune/precache-manifest.e31f8c3cd2e5d38a06fd1de43cc844ec.js"
 );
 
 self.addEventListener('message', (event) => {
