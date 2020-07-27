@@ -36,7 +36,7 @@ export const App: React.FC = () => {
         const x = ((i / 4) % imageData.width) - imageData.width / 2;
         const y = -((i / 4 - x) / imageData.width - imageData.height / 2);
 
-        pointCoords.push(x, y - 25, 0);
+        pointCoords.push(x, y, 0);
       }
 
       i += MathUtils.randInt(1, 12) * 4;
