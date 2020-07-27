@@ -1,11 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Dune } from '../Dune';
-import { Generator } from '../Generator';
-import { getRandomQuote } from '../Generator/words';
+import { MathUtils } from 'three';
+import { Dune } from '../dune';
+import { Generator } from '../generator';
+import { ImageData } from '../image-data';
+import { OtherMemory } from '../interface/OtherMemory';
+import { getRandomQuote } from '../generator/words';
 
 export const App: React.FC = () => {
   const [text, setText] = React.useState(getRandomQuote());
+
+  const [position, setPosition] = React.useState<Float32Array | null>(null);
 
   const [isRendering, setIsRendering] = React.useState(true);
 
@@ -18,18 +23,54 @@ export const App: React.FC = () => {
     setText(newText);
   };
 
+  const handleImageData = React.useCallback((imageData: ImageData) => {
+    // canvas image data is a one-dimensional array of RGBA values per pixel
+    const pointCoords: number[] = [];
+
+    let i = 0;
+
+    while (i < imageData.data.length) {
+      const alpha = imageData.data[i + 3];
+
+      if (alpha > 0) {
+        const x = ((i / 4) % imageData.width) - imageData.width / 2;
+        const y = -((i / 4 - x) / imageData.width - imageData.height / 2);
+
+        pointCoords.push(x, y, 0);
+      }
+
+      i += MathUtils.randInt(1, 12) * 4;
+    }
+
+    setPosition(Float32Array.from(pointCoords));
+  }, []);
+
   const handleComplete = React.useCallback(() => setIsRendering(false), []);
 
   return (
     <StyledBackground>
-      <Dune text={text} isRendering={isRendering} onComplete={handleComplete} />
+      {position && (
+        <Dune
+          position={position}
+          isRendering={isRendering}
+          onComplete={handleComplete}
+        />
+      )}
       <Generator
         paragraphs={2}
         minSentences={1}
         maxSentences={3}
         onChange={handleChange}
-        disabled={isRendering}
-      />
+      >
+        {(onClick) => (
+          <>
+            <OtherMemory onClick={onClick} disabled={isRendering}>
+              Other Memory
+            </OtherMemory>
+            <ImageData onChange={handleImageData}>{text}</ImageData>
+          </>
+        )}
+      </Generator>
     </StyledBackground>
   );
 };
