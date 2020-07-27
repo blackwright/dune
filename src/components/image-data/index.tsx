@@ -8,12 +8,15 @@ type Props = {
 };
 
 export const ImageData: React.FC<Props> = ({ children, onChange }) => {
+  const wrapperRef = React.useRef<HTMLDivElement | null>(null);
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
   React.useEffect(() => {
-    if (canvasRef.current) {
-      canvasRef.current.width = window.innerWidth;
-      canvasRef.current.height = window.innerHeight;
+    if (wrapperRef.current && canvasRef.current) {
+      canvasRef.current.width = wrapperRef.current.clientWidth;
+      canvasRef.current.height = wrapperRef.current.clientHeight;
+      canvasRef.current.style.width = '100%';
+      canvasRef.current.style.height = '100%';
 
       const ctx = canvasRef.current.getContext('2d')!;
       ctx.fillStyle = 'black';
@@ -23,16 +26,15 @@ export const ImageData: React.FC<Props> = ({ children, onChange }) => {
   React.useEffect(() => {
     if (canvasRef.current) {
       CanvasTextWrapper(canvasRef.current, children, {
-        font: '12px "Droid Sans", sans-serif',
+        font: '16px "Droid Sans", sans-serif',
         maxFontSizeToFill: 24,
         textAlign: 'center',
         verticalAlign: 'middle',
         sizeToFill: true,
-        paddingX: canvasRef.current.width / 3,
-        paddingY: canvasRef.current.height / 3,
       });
 
       const ctx = canvasRef.current.getContext('2d')!;
+
       onChange(
         ctx.getImageData(
           0,
@@ -44,12 +46,15 @@ export const ImageData: React.FC<Props> = ({ children, onChange }) => {
     }
   }, [onChange, children]);
 
-  return <FullScreenCanvas ref={canvasRef} />;
+  return (
+    <CanvasWrapper ref={wrapperRef}>
+      <canvas ref={canvasRef} />
+    </CanvasWrapper>
+  );
 };
 
-const FullScreenCanvas = styled.canvas`
+const CanvasWrapper = styled.div`
+  width: 100%;
+  flex-grow: 1;
   visibility: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
 `;

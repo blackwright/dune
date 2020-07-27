@@ -21,11 +21,7 @@ export const Dune: React.FC<Props> = ({
     resize={{ scroll: true, debounce: { scroll: 50, resize: 0 } }}
     pixelRatio={window.devicePixelRatio}
   >
-    <>
-      {position && (
-        <Text position={position} incomingDelay={2} onComplete={onComplete} />
-      )}
-      <Wind particleCount={2_000} isRendering={isRendering} />
-    </>
+    <Text position={position} incomingDelay={2} onComplete={onComplete} />
+    <Wind particleCount={2_000} isRendering={isRendering} />
   </Canvas>
 );

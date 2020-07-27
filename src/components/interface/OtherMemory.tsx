@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const OtherMemory = styled.button`
   color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.8);
+  max-width: 175px;
   padding: 8px 16px;
   font-size: 12px;
   letter-spacing: 0.2rem;
@@ -10,10 +11,6 @@ export const OtherMemory = styled.button`
   background: transparent;
   outline: 0;
   border-radius: 4px;
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translate3d(-50%, 0, 0);
   cursor: pointer;
   transition: all 300ms;
 

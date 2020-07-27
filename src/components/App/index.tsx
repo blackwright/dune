@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { MathUtils } from 'three';
-import { Dune } from '../dune';
-import { Generator } from '../generator';
-import { ImageData } from '../image-data';
-import { OtherMemory } from '../interface/OtherMemory';
-import { getRandomQuote } from '../generator/words';
+import { Dune } from 'components/dune';
+import { Generator } from 'components/generator';
+import { ImageData } from 'components/image-data';
+import { Interface } from 'components/interface';
+import { getRandomQuote } from 'components/generator/words';
 
 export const App: React.FC = () => {
   const [text, setText] = React.useState(getRandomQuote());
@@ -36,7 +36,7 @@ export const App: React.FC = () => {
         const x = ((i / 4) % imageData.width) - imageData.width / 2;
         const y = -((i / 4 - x) / imageData.width - imageData.height / 2);
 
-        pointCoords.push(x, y, 0);
+        pointCoords.push(x, y - 25, 0);
       }
 
       i += MathUtils.randInt(1, 12) * 4;
@@ -62,13 +62,11 @@ export const App: React.FC = () => {
         maxSentences={3}
         onChange={handleChange}
       >
-        {(onClick) => (
-          <>
-            <OtherMemory onClick={onClick} disabled={isRendering}>
-              Other Memory
-            </OtherMemory>
+        {(onGenerate) => (
+          <InterfaceWrapper>
+            <Interface onGenerate={onGenerate} disabled={isRendering} />
             <ImageData onChange={handleImageData}>{text}</ImageData>
-          </>
+          </InterfaceWrapper>
         )}
       </Generator>
     </StyledBackground>
@@ -85,4 +83,15 @@ const StyledBackground = styled.main`
   left: 0;
   width: 100vw;
   height: 100vh;
+`;
+
+const InterfaceWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  padding: 24px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 `;
