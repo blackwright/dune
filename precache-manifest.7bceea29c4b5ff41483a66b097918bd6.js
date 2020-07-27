@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "78c2037d937b9ed56b44df6377dbe5c3",
+    "revision": "670105108e3b11ed046cae34c9656348",
     "url": "/dune/index.html"
   },
   {
-    "revision": "89b14918a2c4c92d2251",
+    "revision": "0aae670f052a5aeeee7b",
     "url": "/dune/static/css/main.4ca8856b.chunk.css"
   },
   {
-    "revision": "c5996a8b1087b97b6d10",
-    "url": "/dune/static/js/2.8a5dd1a3.chunk.js"
+    "revision": "fd5de1257a54e5af5a10",
+    "url": "/dune/static/js/2.1a940699.chunk.js"
   },
   {
     "revision": "6e900953f82e75bb7ccced89e6806918",
-    "url": "/dune/static/js/2.8a5dd1a3.chunk.js.LICENSE.txt"
+    "url": "/dune/static/js/2.1a940699.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "89b14918a2c4c92d2251",
-    "url": "/dune/static/js/main.a8675137.chunk.js"
+    "revision": "0aae670f052a5aeeee7b",
+    "url": "/dune/static/js/main.4e81fd64.chunk.js"
   },
   {
     "revision": "e87b31b93a327fdf03eb",

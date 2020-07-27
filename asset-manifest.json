@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/dune/static/css/main.4ca8856b.chunk.css",
-    "main.js": "/dune/static/js/main.a8675137.chunk.js",
-    "main.js.map": "/dune/static/js/main.a8675137.chunk.js.map",
+    "main.js": "/dune/static/js/main.4e81fd64.chunk.js",
+    "main.js.map": "/dune/static/js/main.4e81fd64.chunk.js.map",
     "runtime-main.js": "/dune/static/js/runtime-main.23484d7e.js",
     "runtime-main.js.map": "/dune/static/js/runtime-main.23484d7e.js.map",
-    "static/js/2.8a5dd1a3.chunk.js": "/dune/static/js/2.8a5dd1a3.chunk.js",
-    "static/js/2.8a5dd1a3.chunk.js.map": "/dune/static/js/2.8a5dd1a3.chunk.js.map",
+    "static/js/2.1a940699.chunk.js": "/dune/static/js/2.1a940699.chunk.js",
+    "static/js/2.1a940699.chunk.js.map": "/dune/static/js/2.1a940699.chunk.js.map",
     "index.html": "/dune/index.html",
-    "precache-manifest.e31f8c3cd2e5d38a06fd1de43cc844ec.js": "/dune/precache-manifest.e31f8c3cd2e5d38a06fd1de43cc844ec.js",
+    "precache-manifest.7bceea29c4b5ff41483a66b097918bd6.js": "/dune/precache-manifest.7bceea29c4b5ff41483a66b097918bd6.js",
     "service-worker.js": "/dune/service-worker.js",
     "static/css/main.4ca8856b.chunk.css.map": "/dune/static/css/main.4ca8856b.chunk.css.map",
-    "static/js/2.8a5dd1a3.chunk.js.LICENSE.txt": "/dune/static/js/2.8a5dd1a3.chunk.js.LICENSE.txt",
+    "static/js/2.1a940699.chunk.js.LICENSE.txt": "/dune/static/js/2.1a940699.chunk.js.LICENSE.txt",
     "static/media/index.css": "/dune/static/media/droid-sans.6f28ad36.ttf"
   },
   "entrypoints": [
     "static/js/runtime-main.23484d7e.js",
-    "static/js/2.8a5dd1a3.chunk.js",
+    "static/js/2.1a940699.chunk.js",
     "static/css/main.4ca8856b.chunk.css",
-    "static/js/main.a8675137.chunk.js"
+    "static/js/main.4e81fd64.chunk.js"
   ]
 }
