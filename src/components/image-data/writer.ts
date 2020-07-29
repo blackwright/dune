@@ -17,7 +17,7 @@ type Options = {
 };
 
 const defaultOptions: Required<Options> = {
-  font: '18px Arial, sans-serif',
+  font: '18px "Times New Roman", serif',
   sizeToFill: false,
   maxFontSizeToFill: undefined,
   lineHeight: 1,
@@ -30,8 +30,9 @@ const defaultOptions: Required<Options> = {
 };
 
 export class Writer {
+  ctx: CanvasRenderingContext2D;
+
   private canvas: HTMLCanvasElement;
-  private ctx: CanvasRenderingContext2D;
   private options: Required<Options>;
 
   constructor(canvas: HTMLCanvasElement, options: Options) {
@@ -39,44 +40,18 @@ export class Writer {
     this.ctx = canvas.getContext('2d')!;
     this.options = { ...defaultOptions, ...options };
 
-    this.ctx.font = this.options.font;
-    this.ctx.textBaseline = 'bottom';
-
     let scale = 1;
 
-    const { devicePixelRatio } = window;
-
-    if (devicePixelRatio > 1) {
-      const tempCtx: any = {};
-
-      (Object.keys(this.ctx) as Array<keyof CanvasRenderingContext2D>).forEach(
-        (key) => {
-          tempCtx[key] = this.ctx[key];
-        }
-      );
-
-      const { width, height } = this.canvas;
-
-      scale = devicePixelRatio;
-
-      this.canvas.width = width * scale;
-      this.canvas.height = height * scale;
-      this.canvas.style.width = `${(width * scale) / 2}px`;
-      this.canvas.style.height = `${(height * scale) / 2}px`;
-
-      (Object.keys(tempCtx) as Array<keyof CanvasRenderingContext2D>).forEach(
-        (key) => {
-          try {
-            (this.ctx as any)[key] = tempCtx[key];
-          } catch (e) {}
-        }
-      );
-
-      this.ctx.scale(scale, scale);
-    }
+    this.ctx.scale(scale, scale);
+    this.ctx.font = this.options.font;
+    this.ctx.textBaseline = 'bottom';
+    this.ctx.fillStyle = 'white';
+    this.ctx.save();
   }
 
   write(text: string) {
+    this.ctx.restore();
+
     const EL_WIDTH = this.canvas.width;
     const EL_HEIGHT = this.canvas.height;
 

@@ -14,41 +14,33 @@ export const ImageData: React.FC<Props> = ({ children, onChange }) => {
   const [writer, setWriter] = React.useState<Writer | null>(null);
 
   React.useEffect(() => {
+    if (wrapperRef.current && canvasRef.current) {
+      canvasRef.current.width = wrapperRef.current.clientWidth;
+      canvasRef.current.height = wrapperRef.current.clientHeight;
+    }
+  }, []);
+
+  React.useEffect(() => {
     if (canvasRef.current) {
       setWriter(
         new Writer(canvasRef.current, {
-          font: '16px "Droid Sans", sans-serif',
+          font: '16px "Tiempos Text", "Times New Roman", serif',
           maxFontSizeToFill: 60,
           textAlign: 'center',
           verticalAlign: 'middle',
           sizeToFill: true,
           paddingX: 20,
-          paddingY: 20,
         })
       );
     }
   }, []);
 
   React.useEffect(() => {
-    if (wrapperRef.current && canvasRef.current) {
-      canvasRef.current.width = wrapperRef.current.clientWidth;
-      canvasRef.current.height = wrapperRef.current.clientHeight;
-      canvasRef.current.style.width = '100%';
-      canvasRef.current.style.height = '100%';
-
-      const ctx = canvasRef.current.getContext('2d')!;
-      ctx.fillStyle = 'white';
-    }
-  });
-
-  React.useEffect(() => {
     if (canvasRef.current && writer) {
       writer.write(children);
 
-      const ctx = canvasRef.current.getContext('2d')!;
-
       onChange(
-        ctx.getImageData(
+        writer.ctx.getImageData(
           0,
           0,
           canvasRef.current.width,

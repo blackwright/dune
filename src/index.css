@@ -1,8 +1,8 @@
 @font-face {
-  font-family: 'Droid Sans';
-  src: local('Droid Sans'), url(./fonts/droid-sans.woff2) format('woff2'),
-    local('Droid Sans'), url(./fonts/droid-sans.woff) format('woff'),
-    local('Droid Sans'), url(./fonts/droid-sans.ttf) format('truetype');
+  font-family: 'Tiempos Text';
+  src: local('Tiempos Text'),
+    url(./fonts/TiemposTextWeb-Regular.woff) format('woff'),
+    url(./fonts/TiemposTextWeb-Regular.ttf) format('truetype');
 }
 
 * {
@@ -18,5 +18,5 @@ body {
 }
 
 body {
-  font-family: 'Droid Sans', Arial, sans-serif;
+  font-family: 'Tiempos Text', 'Times New Roman', serif;
 }
