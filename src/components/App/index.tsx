@@ -8,6 +8,8 @@ import { Interface } from 'components/interface';
 import { getRandomQuote } from 'components/generator/words';
 
 export const App: React.FC = () => {
+  const [count, setCount] = React.useState(1);
+
   const [text, setText] = React.useState(getRandomQuote());
 
   const [position, setPosition] = React.useState<Float32Array | null>(null);
@@ -57,14 +59,19 @@ export const App: React.FC = () => {
         />
       )}
       <Generator
-        paragraphs={2}
-        minSentences={1}
-        maxSentences={3}
+        paragraphs={count}
+        minSentences={2}
+        maxSentences={4}
         onChange={handleChange}
       >
         {(onGenerate) => (
           <InterfaceWrapper>
-            <Interface onGenerate={onGenerate} disabled={isRendering} />
+            <Interface
+              count={count}
+              onChangeCount={setCount}
+              onGenerate={onGenerate}
+              disabled={isRendering}
+            />
             <ImageData onChange={handleImageData}>{text}</ImageData>
           </InterfaceWrapper>
         )}
@@ -89,7 +96,7 @@ const InterfaceWrapper = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  padding: 24px;
+  padding: 24px 48px;
   top: 0;
   left: 0;
   width: 100%;

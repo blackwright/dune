@@ -6,6 +6,7 @@ export const OtherMemory = styled.button`
   max-width: 175px;
   padding: 8px 16px;
   font-size: 12px;
+  line-height: 14px;
   letter-spacing: 0.2rem;
   text-transform: uppercase;
   background: transparent;

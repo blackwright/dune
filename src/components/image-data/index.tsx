@@ -25,11 +25,10 @@ export const ImageData: React.FC<Props> = ({ children, onChange }) => {
       setWriter(
         new Writer(canvasRef.current, {
           font: '16px "Tiempos Text", "Times New Roman", serif',
-          maxFontSizeToFill: 60,
+          maxFontSizeToFill: 80,
           textAlign: 'center',
           verticalAlign: 'middle',
           sizeToFill: true,
-          paddingX: 20,
         })
       );
     }
@@ -46,6 +45,13 @@ export const ImageData: React.FC<Props> = ({ children, onChange }) => {
           canvasRef.current.width,
           canvasRef.current.height
         )
+      );
+
+      writer.ctx.clearRect(
+        0,
+        0,
+        canvasRef.current.width,
+        canvasRef.current.height
       );
     }
   }, [onChange, children, writer]);
