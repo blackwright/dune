@@ -1,33 +1,33 @@
-import { NumberOfParagraphs } from 'types';
+export function getParticleGap(text: string): number {
+  const gap = clampNumberRange(text.length, {
+    input: [50, 500],
+    output: [12, 4],
+  });
 
-export function getParticleGap(
-  paragraphs: NumberOfParagraphs,
-  area: number
-): number {
-  return gap(area) * paragraphFactor(paragraphs);
+  return gap;
 }
 
-function gap(area: number): number {
-  if (area > 3_000_000) {
-    return 20;
-  }
+type Clamp = [number, number];
 
-  if (area > 1_000_000) {
-    return 16;
-  }
+type ClampRanges = {
+  input: Clamp;
+  output: Clamp;
+};
 
-  return 5;
+function clampNumberRange(value: number, { input, output }: ClampRanges) {
+  const mappedValue =
+    ((value - input[0]) * (output[1] - output[0])) / (input[1] - input[0]) +
+    output[0];
+
+  return clamp(mappedValue, [output[0], output[1]]);
 }
 
-function paragraphFactor(paragraphs: NumberOfParagraphs): number {
-  switch (paragraphs) {
-    case 1:
-      return 1;
-    case 2:
-      return 0.8;
-    case 3:
-      return 0.6;
-    case 4:
-      return 0.4;
+function clamp(value: number, [min, max]: Clamp): number {
+  if (min > max) {
+    let temp = min;
+    min = max;
+    max = temp;
   }
+
+  return Math.min(Math.max(value, min), max);
 }

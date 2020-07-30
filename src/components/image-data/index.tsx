@@ -2,15 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { Writer } from './writer';
 import { getParticleGap } from './utils';
-import { NumberOfParagraphs } from 'types';
 
 type Props = {
-  paragraphs: NumberOfParagraphs;
   text: string;
   onChange: (imageData: ImageData, particleGap: number) => void;
 };
 
-export const ImageData: React.FC<Props> = ({ paragraphs, text, onChange }) => {
+export const ImageData: React.FC<Props> = ({ text, onChange }) => {
   const wrapperRef = React.useRef<HTMLDivElement | null>(null);
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
@@ -45,7 +43,7 @@ export const ImageData: React.FC<Props> = ({ paragraphs, text, onChange }) => {
 
       onChange(
         writer.ctx.getImageData(0, 0, width, height),
-        getParticleGap(paragraphs, width * height)
+        getParticleGap(text)
       );
 
       writer.ctx.clearRect(0, 0, width, height);

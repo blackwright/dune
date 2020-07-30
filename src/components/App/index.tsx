@@ -76,11 +76,7 @@ export const App: React.FC = () => {
               onGenerate={onGenerate}
               disabled={isRendering}
             />
-            <ImageData
-              paragraphs={count}
-              text={text}
-              onChange={handleImageData}
-            />
+            <ImageData text={text} onChange={handleImageData} />
           </InterfaceWrapper>
         )}
       </Generator>
