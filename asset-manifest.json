@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/dune/static/css/main.c0fe08d0.chunk.css",
-    "main.js": "/dune/static/js/main.50232718.chunk.js",
-    "main.js.map": "/dune/static/js/main.50232718.chunk.js.map",
+    "main.js": "/dune/static/js/main.ff4954bb.chunk.js",
+    "main.js.map": "/dune/static/js/main.ff4954bb.chunk.js.map",
     "runtime-main.js": "/dune/static/js/runtime-main.23484d7e.js",
     "runtime-main.js.map": "/dune/static/js/runtime-main.23484d7e.js.map",
     "static/js/2.dd655764.chunk.js": "/dune/static/js/2.dd655764.chunk.js",
     "static/js/2.dd655764.chunk.js.map": "/dune/static/js/2.dd655764.chunk.js.map",
     "index.html": "/dune/index.html",
-    "precache-manifest.1b65560b4b229f5c899a2eeb5231f641.js": "/dune/precache-manifest.1b65560b4b229f5c899a2eeb5231f641.js",
+    "precache-manifest.e98da55b33f33daa61e20263b2c8a076.js": "/dune/precache-manifest.e98da55b33f33daa61e20263b2c8a076.js",
     "service-worker.js": "/dune/service-worker.js",
     "static/css/main.c0fe08d0.chunk.css.map": "/dune/static/css/main.c0fe08d0.chunk.css.map",
     "static/js/2.dd655764.chunk.js.LICENSE.txt": "/dune/static/js/2.dd655764.chunk.js.LICENSE.txt",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.23484d7e.js",
     "static/js/2.dd655764.chunk.js",
     "static/css/main.c0fe08d0.chunk.css",
-    "static/js/main.50232718.chunk.js"
+    "static/js/main.ff4954bb.chunk.js"
   ]
 }
