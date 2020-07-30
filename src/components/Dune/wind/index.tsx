@@ -2,14 +2,17 @@ import React from 'react';
 import { Clock, Geometry, MathUtils, Vector3 } from 'three';
 import { useUpdate, useFrame } from 'react-three-fiber';
 import { shader } from './shader';
-import { lerp } from './utils';
+import { getParticleCount, lerp } from './utils';
 
 type Props = {
-  particleCount: number;
+  dimensions: {
+    width: number;
+    height: number;
+  };
   isRendering: boolean;
 };
 
-export const Wind: React.FC<Props> = ({ particleCount, isRendering }) => {
+export const Wind: React.FC<Props> = ({ dimensions, isRendering }) => {
   const clockRef = React.useRef(new Clock());
 
   const rotationDiffRef = React.useRef(0.01);
@@ -17,8 +20,10 @@ export const Wind: React.FC<Props> = ({ particleCount, isRendering }) => {
   const pointsRef = useUpdate<THREE.Points>((points) => {
     const geometry = new Geometry();
 
-    const maxX = window.innerWidth / 2;
-    const maxY = window.innerHeight / 2;
+    const maxX = dimensions.width / 2;
+    const maxY = dimensions.height / 2;
+
+    const particleCount = getParticleCount(dimensions);
 
     for (let i = 0; i < particleCount; i++) {
       geometry.vertices.push(

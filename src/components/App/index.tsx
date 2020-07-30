@@ -64,8 +64,8 @@ export const App: React.FC = () => {
       )}
       <Generator
         paragraphs={count}
-        minSentences={2}
-        maxSentences={4}
+        minSentences={1}
+        maxSentences={2}
         onChange={handleChange}
       >
         {(onGenerate) => (
