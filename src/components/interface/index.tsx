@@ -2,10 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { ParagraphCount } from './ParagraphCount';
 import { OtherMemory } from './OtherMemory';
+import { NumberOfParagraphs } from 'types';
 
 type Props = {
-  count: number;
-  onChangeCount: (count: number) => void;
+  count: NumberOfParagraphs;
+  onChangeCount: (count: NumberOfParagraphs) => void;
   onGenerate: () => void;
   disabled?: boolean;
 };

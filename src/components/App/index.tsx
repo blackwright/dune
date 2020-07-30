@@ -6,15 +6,43 @@ import { Generator } from 'components/generator';
 import { ImageData } from 'components/image-data';
 import { Interface } from 'components/interface';
 import { getRandomQuote } from 'components/generator/words';
+import { NumberOfParagraphs } from 'types';
 
 export const App: React.FC = () => {
-  const [count, setCount] = React.useState(1);
+  const [count, setCount] = React.useState<NumberOfParagraphs>(1);
 
   const [text, setText] = React.useState(getRandomQuote());
 
   const [position, setPosition] = React.useState<Float32Array | null>(null);
 
   const [isRendering, setIsRendering] = React.useState(true);
+
+  const handleImageData = React.useCallback(
+    (imageData: ImageData, particleGap: number) => {
+      // canvas image data is a one-dimensional array of RGBA values per pixel
+      const pointCoords: number[] = [];
+
+      let i = 0;
+
+      while (i < imageData.data.length) {
+        const alpha = imageData.data[i + 3];
+
+        if (alpha > 0) {
+          const x = ((i / 4) % imageData.width) - imageData.width / 2;
+          const y = -((i / 4 - x) / imageData.width - imageData.height / 2);
+
+          pointCoords.push(x, y - 45, 0);
+        }
+
+        i += MathUtils.randInt(1, particleGap) * 4;
+      }
+
+      setPosition(Float32Array.from(pointCoords));
+    },
+    []
+  );
+
+  const handleComplete = React.useCallback(() => setIsRendering(false), []);
 
   const handleChange = (newText: string) => {
     if (isRendering) {
@@ -24,30 +52,6 @@ export const App: React.FC = () => {
     setIsRendering(true);
     setText(newText);
   };
-
-  const handleImageData = React.useCallback((imageData: ImageData) => {
-    // canvas image data is a one-dimensional array of RGBA values per pixel
-    const pointCoords: number[] = [];
-
-    let i = 0;
-
-    while (i < imageData.data.length) {
-      const alpha = imageData.data[i + 3];
-
-      if (alpha > 0) {
-        const x = ((i / 4) % imageData.width) - imageData.width / 2;
-        const y = -((i / 4 - x) / imageData.width - imageData.height / 2);
-
-        pointCoords.push(x, y - 45, 0);
-      }
-
-      i += MathUtils.randInt(1, 12) * 4;
-    }
-
-    setPosition(Float32Array.from(pointCoords));
-  }, []);
-
-  const handleComplete = React.useCallback(() => setIsRendering(false), []);
 
   return (
     <StyledBackground>
@@ -72,7 +76,11 @@ export const App: React.FC = () => {
               onGenerate={onGenerate}
               disabled={isRendering}
             />
-            <ImageData onChange={handleImageData}>{text}</ImageData>
+            <ImageData
+              paragraphs={count}
+              text={text}
+              onChange={handleImageData}
+            />
           </InterfaceWrapper>
         )}
       </Generator>

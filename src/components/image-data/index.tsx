@@ -1,13 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Writer } from './writer';
+import { getParticleGap } from './utils';
+import { NumberOfParagraphs } from 'types';
 
 type Props = {
-  children: string;
-  onChange: (imageData: ImageData) => void;
+  paragraphs: NumberOfParagraphs;
+  text: string;
+  onChange: (imageData: ImageData, particleGap: number) => void;
 };
 
-export const ImageData: React.FC<Props> = ({ children, onChange }) => {
+export const ImageData: React.FC<Props> = ({ paragraphs, text, onChange }) => {
   const wrapperRef = React.useRef<HTMLDivElement | null>(null);
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
@@ -25,7 +28,7 @@ export const ImageData: React.FC<Props> = ({ children, onChange }) => {
       setWriter(
         new Writer(canvasRef.current, {
           font: '16px "Tiempos Text", "Times New Roman", serif',
-          maxFontSizeToFill: 80,
+          maxFontSizeToFill: 77,
           textAlign: 'center',
           verticalAlign: 'middle',
           sizeToFill: true,
@@ -36,25 +39,19 @@ export const ImageData: React.FC<Props> = ({ children, onChange }) => {
 
   React.useEffect(() => {
     if (canvasRef.current && writer) {
-      writer.write(children);
+      const { width, height } = canvasRef.current;
+
+      writer.write(text);
 
       onChange(
-        writer.ctx.getImageData(
-          0,
-          0,
-          canvasRef.current.width,
-          canvasRef.current.height
-        )
+        writer.ctx.getImageData(0, 0, width, height),
+        getParticleGap(paragraphs, width * height)
       );
 
-      writer.ctx.clearRect(
-        0,
-        0,
-        canvasRef.current.width,
-        canvasRef.current.height
-      );
+      writer.ctx.clearRect(0, 0, width, height);
     }
-  }, [onChange, children, writer]);
+    // eslint-disable-next-line
+  }, [onChange, text, writer]);
 
   return (
     <CanvasWrapper ref={wrapperRef}>

@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { NumberOfParagraphs } from 'types';
 
 type Props = {
-  count: number;
-  onChange: (count: number) => void;
+  count: NumberOfParagraphs;
+  onChange: (count: NumberOfParagraphs) => void;
 } & Omit<React.ComponentProps<'div'>, 'onChange'>;
 
 const Component: React.FC<Props> = ({ className, count, onChange }) => {
@@ -16,7 +17,7 @@ const Component: React.FC<Props> = ({ className, count, onChange }) => {
       <Wrapper>
         {count}
         <Dropdown isOpen={isOpen}>
-          {[1, 2, 3, 4].map((num) => (
+          {([1, 2, 3, 4] as Array<NumberOfParagraphs>).map((num) => (
             <Option key={num} onClick={() => onChange(num)}>
               {num}
             </Option>
