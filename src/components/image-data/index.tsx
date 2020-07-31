@@ -59,7 +59,7 @@ export const ImageData: React.FC<Props> = ({ text, onChange }) => {
 };
 
 const CanvasWrapper = styled.div`
-  width: 100%;
   flex-grow: 1;
   visibility: hidden;
+  margin: 0 48px;
 `;

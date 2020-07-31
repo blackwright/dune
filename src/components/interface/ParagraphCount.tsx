@@ -35,7 +35,6 @@ const Wrapper = styled.div`
   color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.8);
   position: relative;
-  top: 8px;
   padding: 8px 16px;
   font-size: 12px;
   line-height: 14px;
@@ -72,6 +71,6 @@ const Option = styled.li`
 `;
 
 export const ParagraphCount = styled(Component)`
-  padding-bottom: 16px;
-  margin-right: 8px;
+  margin: 0 4px;
+  display: flex;
 `;

@@ -17,10 +17,6 @@ export const Dune: React.FC<Props> = ({
 }) => {
   const dimensions = useWindowResize();
 
-  if (!dimensions) {
-    return null;
-  }
-
   return (
     <Canvas
       concurrent={true}

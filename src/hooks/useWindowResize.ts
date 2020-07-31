@@ -8,7 +8,10 @@ export type Dimensions = {
 export function useWindowResize() {
   const timeoutIdRef = React.useRef<number>();
 
-  const [dimensions, setDimensions] = React.useState<Dimensions | undefined>();
+  const [dimensions, setDimensions] = React.useState<Dimensions>({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
 
   React.useEffect(() => {
     const handleResize = () => {
@@ -23,8 +26,6 @@ export function useWindowResize() {
     };
 
     window.addEventListener('resize', handleResize);
-
-    handleResize();
 
     return () => {
       window.clearTimeout(timeoutIdRef.current);

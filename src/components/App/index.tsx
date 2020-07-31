@@ -31,7 +31,7 @@ export const App: React.FC = () => {
           const x = ((i / 4) % imageData.width) - imageData.width / 2;
           const y = -((i / 4 - x) / imageData.width - imageData.height / 2);
 
-          pointCoords.push(x, y - 45, 0);
+          pointCoords.push(x, y - 25, 0);
         }
 
         i += MathUtils.randInt(1, particleGap) * 4;
@@ -71,6 +71,7 @@ export const App: React.FC = () => {
         {(onGenerate) => (
           <InterfaceWrapper>
             <Interface
+              text={text}
               count={count}
               onChangeCount={setCount}
               onGenerate={onGenerate}
@@ -100,7 +101,7 @@ const InterfaceWrapper = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  padding: 24px 48px;
+  padding-bottom: 24px;
   top: 0;
   left: 0;
   width: 100%;
