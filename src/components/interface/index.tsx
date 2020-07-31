@@ -21,7 +21,11 @@ export const Interface: React.FC<Props> = ({
   disabled,
 }) => (
   <Wrapper>
-    <ParagraphCount count={count} onChange={onChangeCount} />
+    <ParagraphCount
+      count={count}
+      onChange={onChangeCount}
+      disabled={disabled}
+    />
     <OtherMemory onClick={onGenerate} disabled={disabled}>
       Other Memory
     </OtherMemory>

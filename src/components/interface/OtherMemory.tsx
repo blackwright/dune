@@ -27,6 +27,5 @@ export const OtherMemory = styled.button`
   :disabled {
     border: 1px solid rgba(255, 255, 255, 0.3);
     color: rgba(255, 255, 255, 0.3);
-    background: transparent;
   }
 `;

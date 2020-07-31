@@ -24,8 +24,8 @@ export const Copy: React.FC<Props> = ({ text }) => {
   return (
     <Wrapper onClick={handleCopy}>
       <svg
-        width={16}
-        height={16}
+        width={12}
+        height={12}
         x="0px"
         y="0px"
         viewBox="0 0 210.107 210.107"
@@ -50,6 +50,7 @@ const Wrapper = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 4px;
   padding: 8px 12px;
+  min-width: 36px;
   margin: 0 4px;
   cursor: pointer;
 
