@@ -1,21 +1,21 @@
 export const vertexShader = `
-uniform float uTime;
+uniform float u_time;
 
-varying float vPositionZ;
+varying float v_position_z;
 
 void main() {
-  vPositionZ = position.z;
+  v_position_z = position.z;
   
   gl_PointSize = 6.0;
 
-  vec3 newPosition = vec3(position.x, position.y + sin(uTime), position.z);
+  vec3 newPosition = vec3(position.x, position.y + sin(u_time), position.z);
   
   gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
 }
 `;
 
 export const fragmentShader = `
-varying float vPositionZ;
+varying float v_position_z;
 
 void main() {
   vec2 cxy = 6.0 * gl_PointCoord - 3.0;
@@ -26,13 +26,13 @@ void main() {
     discard;
   }
 
-  gl_FragColor = vec4(0.9, 0.3, 0.0, fract(sin(vPositionZ)));
+  gl_FragColor = vec4(0.9, 0.3, 0.0, fract(sin(v_position_z)));
 }
 `;
 
 export const shader = {
   uniforms: {
-    uTime: { value: 0.0 },
+    u_time: { value: 0.0 },
   },
   vertexShader,
   fragmentShader,

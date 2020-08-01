@@ -25,11 +25,14 @@ export const Generator: React.FC<Props> = ({
     [minSentences, maxSentences]
   );
 
-  const generate = React.useCallback((count) => {
-    return [...new Array(count)]
-      .map(() => paragraphBuilder.build().toString())
-      .join('\n\n');
-  }, []);
+  const generate = React.useCallback(
+    (count) => {
+      return [...new Array(count)]
+        .map(() => paragraphBuilder.build().toString())
+        .join('\n\n');
+    },
+    [paragraphBuilder]
+  );
 
   React.useEffect(() => {
     if (initialRenderRef.current) {

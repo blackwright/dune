@@ -16,7 +16,7 @@ export const Outgoing: React.FC<Props> = ({ attributes }) => {
       const [position, visibleTime, color] = attributes;
 
       geometry.setAttribute('position', position);
-      geometry.setAttribute('visibleTime', visibleTime);
+      geometry.setAttribute('visible_time', visibleTime);
       geometry.setAttribute('color', color);
     },
     [attributes]
@@ -24,7 +24,7 @@ export const Outgoing: React.FC<Props> = ({ attributes }) => {
 
   const materialRef = useUpdate<THREE.ShaderMaterial>(
     (material) => {
-      material.uniforms.uTime.value = 0.0;
+      material.uniforms.u_time.value = 0.0;
       clockRef.current.start();
     },
     [attributes]
@@ -32,7 +32,7 @@ export const Outgoing: React.FC<Props> = ({ attributes }) => {
 
   useFrame(() => {
     if (materialRef.current) {
-      materialRef.current.uniforms.uTime.value += clockRef.current.getDelta();
+      materialRef.current.uniforms.u_time.value += clockRef.current.getDelta();
     }
   });
 

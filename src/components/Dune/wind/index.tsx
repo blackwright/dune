@@ -39,7 +39,7 @@ export const Wind: React.FC<Props> = ({ dimensions, isRendering }) => {
   }, []);
 
   const materialRef = useUpdate<THREE.ShaderMaterial>((material) => {
-    material.uniforms.uTime.value = 0.0;
+    material.uniforms.u_time.value = 0.0;
     clockRef.current.start();
   }, []);
 
@@ -57,7 +57,7 @@ export const Wind: React.FC<Props> = ({ dimensions, isRendering }) => {
     }
 
     if (materialRef.current) {
-      materialRef.current.uniforms.uTime.value += clockRef.current.getDelta();
+      materialRef.current.uniforms.u_time.value += clockRef.current.getDelta();
     }
   });
 
