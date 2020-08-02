@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ResizeObserver } from '@juggle/resize-observer';
 import { App } from './components/app';
 import * as serviceWorker from './serviceWorker';
 import './reset.css';
 import './index.css';
+
+(window as any).ResizeObserver = ResizeObserver;
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
