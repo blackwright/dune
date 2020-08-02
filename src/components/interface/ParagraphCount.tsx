@@ -64,6 +64,7 @@ const Dropdown = styled.ul<{ isOpen: boolean }>`
   visibility: ${({ isOpen }) => (isOpen ? 'visible' : 'hidden')};
   position: absolute;
   top: 38px;
+  left: 0;
   border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 4px;
   display: flex;

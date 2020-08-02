@@ -15,8 +15,6 @@ export const Dune: React.FC<Props> = ({
   isRendering,
   onComplete,
 }) => {
-  const dimensions = useWindowResize();
-
   return (
     <Canvas
       concurrent={true}
@@ -28,7 +26,7 @@ export const Dune: React.FC<Props> = ({
       <Text position={position} incomingDelay={2} onComplete={onComplete} />
 
       <Suspense fallback={null}>
-        <Wind dimensions={dimensions} isRendering={isRendering} />
+        <Wind isRendering={isRendering} />
       </Suspense>
     </Canvas>
   );
