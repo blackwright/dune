@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/dune/static/css/main.a1152f07.chunk.css",
-    "main.js": "/dune/static/js/main.4151a8e8.chunk.js",
-    "main.js.map": "/dune/static/js/main.4151a8e8.chunk.js.map",
+    "main.css": "/dune/static/css/main.575cdd2a.chunk.css",
+    "main.js": "/dune/static/js/main.cb9740b8.chunk.js",
+    "main.js.map": "/dune/static/js/main.cb9740b8.chunk.js.map",
     "runtime-main.js": "/dune/static/js/runtime-main.23484d7e.js",
     "runtime-main.js.map": "/dune/static/js/runtime-main.23484d7e.js.map",
-    "static/js/2.6e501bf9.chunk.js": "/dune/static/js/2.6e501bf9.chunk.js",
-    "static/js/2.6e501bf9.chunk.js.map": "/dune/static/js/2.6e501bf9.chunk.js.map",
+    "static/js/2.8eab16ca.chunk.js": "/dune/static/js/2.8eab16ca.chunk.js",
+    "static/js/2.8eab16ca.chunk.js.map": "/dune/static/js/2.8eab16ca.chunk.js.map",
     "index.html": "/dune/index.html",
-    "precache-manifest.a231c37893b7e1c390f262f88e797fd2.js": "/dune/precache-manifest.a231c37893b7e1c390f262f88e797fd2.js",
+    "precache-manifest.047a170762b42914f57f076d9f8e5008.js": "/dune/precache-manifest.047a170762b42914f57f076d9f8e5008.js",
     "service-worker.js": "/dune/service-worker.js",
-    "static/css/main.a1152f07.chunk.css.map": "/dune/static/css/main.a1152f07.chunk.css.map",
-    "static/js/2.6e501bf9.chunk.js.LICENSE.txt": "/dune/static/js/2.6e501bf9.chunk.js.LICENSE.txt",
+    "static/css/main.575cdd2a.chunk.css.map": "/dune/static/css/main.575cdd2a.chunk.css.map",
+    "static/js/2.8eab16ca.chunk.js.LICENSE.txt": "/dune/static/js/2.8eab16ca.chunk.js.LICENSE.txt",
     "static/media/index.css": "/dune/static/media/TiemposTextWeb-Regular.72704e8e.ttf"
   },
   "entrypoints": [
     "static/js/runtime-main.23484d7e.js",
-    "static/js/2.6e501bf9.chunk.js",
-    "static/css/main.a1152f07.chunk.css",
-    "static/js/main.4151a8e8.chunk.js"
+    "static/js/2.8eab16ca.chunk.js",
+    "static/css/main.575cdd2a.chunk.css",
+    "static/js/main.cb9740b8.chunk.js"
   ]
 }
