@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "5ebbbdb3ef75682de16869b6a3c9448a",
+    "revision": "d05883e9e17cc81496611f3bb76ec2fb",
     "url": "/dune/index.html"
   },
   {
-    "revision": "0517dd49e6fe1d99e5ab",
+    "revision": "2ef1f6b70fbf6820d0aa",
     "url": "/dune/static/css/main.a1152f07.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/dune/static/js/2.6e501bf9.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "0517dd49e6fe1d99e5ab",
-    "url": "/dune/static/js/main.56e4b84b.chunk.js"
+    "revision": "2ef1f6b70fbf6820d0aa",
+    "url": "/dune/static/js/main.4151a8e8.chunk.js"
   },
   {
     "revision": "e87b31b93a327fdf03eb",
