@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react';
 import { Canvas } from 'react-three-fiber';
-import { useWindowResize } from 'hooks/useWindowResize';
 import { Text } from './text';
 import { Wind } from './wind';
 
