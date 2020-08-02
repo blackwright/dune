@@ -1,7 +1,7 @@
 import React from 'react';
-import { Clock, Geometry, MathUtils, Vector3 } from 'three';
-import { useUpdate, useFrame } from 'react-three-fiber';
-import { shader } from './shader';
+import { TextureLoader, Geometry, MathUtils, Vector3, Color } from 'three';
+import { useLoader, useUpdate, useFrame } from 'react-three-fiber';
+import dust from './dust.png';
 import { getParticleCount, lerp } from './utils';
 
 type Props = {
@@ -13,9 +13,17 @@ type Props = {
 };
 
 export const Wind: React.FC<Props> = ({ dimensions, isRendering }) => {
-  const clockRef = React.useRef(new Clock());
+  const sprite = useLoader(TextureLoader, dust);
 
-  const rotationDiffRef = React.useRef(0.01);
+  const rotationDiffRef = React.useRef(0.1);
+
+  const { starColor, spiceColor } = React.useMemo(
+    () => ({
+      starColor: new Color(0xdddddd),
+      spiceColor: new Color(0xff796f),
+    }),
+    []
+  );
 
   const pointsRef = useUpdate<THREE.Points>((points) => {
     const geometry = new Geometry();
@@ -38,32 +46,41 @@ export const Wind: React.FC<Props> = ({ dimensions, isRendering }) => {
     points.geometry = geometry;
   }, []);
 
-  const materialRef = useUpdate<THREE.ShaderMaterial>((material) => {
-    material.uniforms.u_time.value = 0.0;
-    clockRef.current.start();
+  const materialRef = useUpdate<THREE.PointsMaterial>((material) => {
+    material.color = starColor.clone();
   }, []);
 
   useFrame(() => {
     if (pointsRef.current) {
       const newRotationDiff = lerp(
         rotationDiffRef.current,
-        isRendering ? 0.1 : 0.01,
-        0.02
+        isRendering ? 1.0 : 0.1,
+        isRendering ? 0.1 : 0.05
       );
 
       rotationDiffRef.current = newRotationDiff;
 
-      pointsRef.current.rotation.y -= newRotationDiff;
-    }
+      pointsRef.current.rotation.y -= newRotationDiff / 12;
 
-    if (materialRef.current) {
-      materialRef.current.uniforms.u_time.value += clockRef.current.getDelta();
+      materialRef.current.color.lerp(
+        isRendering ? spiceColor : starColor,
+        isRendering ? 0.1 : 0.05
+      );
     }
   });
 
   return (
     <points ref={pointsRef}>
-      <shaderMaterial ref={materialRef} attach="material" args={[shader]} />
+      <pointsMaterial
+        ref={materialRef}
+        attach="material"
+        args={[
+          {
+            size: 2,
+            map: sprite,
+          },
+        ]}
+      />
     </points>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Canvas } from 'react-three-fiber';
 import { useWindowResize } from 'hooks/useWindowResize';
 import { Text } from './text';
@@ -26,7 +26,10 @@ export const Dune: React.FC<Props> = ({
       pixelRatio={window.devicePixelRatio}
     >
       <Text position={position} incomingDelay={2} onComplete={onComplete} />
-      <Wind dimensions={dimensions} isRendering={isRendering} />
+
+      <Suspense fallback={null}>
+        <Wind dimensions={dimensions} isRendering={isRendering} />
+      </Suspense>
     </Canvas>
   );
 };
